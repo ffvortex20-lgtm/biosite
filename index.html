@@ -1,0 +1,1444 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#101014">
+<meta name="description" content="Conheça a trajetória de Raven, atualmente conhecido como Vortex.">
+<title>Quem é Raven? — VORTEX</title>
+
+<style>
+:root {
+  color-scheme: dark;
+  --bg:#0b0b0f;
+  --surface:#14141b;
+  --surface-2:#1b1b24;
+  --text:#f4f4f7;
+  --muted:#b5b5c2;
+  --line:rgba(255,255,255,.10);
+  --accent:#a78bfa;
+  --accent-2:#6d5dfc;
+  --glow:rgba(139,92,246,.25);
+  --shadow:0 24px 80px rgba(0,0,0,.35);
+}
+
+[data-theme="light"] {
+  color-scheme:light;
+  --bg:#f3f3f7;
+  --surface:#fff;
+  --surface-2:#e9e9f1;
+  --text:#171721;
+  --muted:#555566;
+  --line:rgba(20,20,35,.13);
+  --accent:#6941c6;
+  --accent-2:#5134b5;
+  --glow:rgba(105,65,198,.15);
+  --shadow:0 24px 70px rgba(30,20,60,.12);
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+
+body {
+  margin:0;
+  min-height:100vh;
+  overflow-x:hidden;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;
+  transition:background .3s,color .3s;
+}
+
+a{color:inherit;text-decoration:none}
+
+.ambient {
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:-1;
+  background:
+    radial-gradient(ellipse at 15% 15%,var(--glow),transparent 38%),
+    radial-gradient(ellipse at 85% 55%,rgba(59,130,246,.10),transparent 34%);
+}
+
+.grid-bg {
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  opacity:.18;
+  background-image:
+    linear-gradient(var(--line) 1px,transparent 1px),
+    linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size:54px 54px;
+  mask-image:linear-gradient(to bottom,black,transparent 85%);
+}
+
+.nav {
+  width:min(1120px,calc(100% - 40px));
+  margin:0 auto;
+  height:82px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  border-bottom:1px solid var(--line);
+}
+
+.brand {
+  display:flex;
+  align-items:center;
+  gap:11px;
+  font-weight:850;
+  letter-spacing:.16em;
+}
+
+.brand-mark {
+  width:34px;
+  height:34px;
+  display:grid;
+  place-items:center;
+  border-radius:11px;
+  background:linear-gradient(135deg,var(--accent),var(--accent-2));
+  color:white;
+  box-shadow:0 0 28px var(--glow);
+  font-size:15px;
+}
+
+.nav-right {
+  display:flex;
+  align-items:center;
+  gap:22px;
+  color:var(--muted);
+  font-size:13px;
+}
+
+.nav-right a:hover{color:var(--text)}
+
+.theme-toggle {
+  border:1px solid var(--line);
+  background:var(--surface);
+  color:var(--text);
+  width:40px;
+  height:40px;
+  border-radius:12px;
+  cursor:pointer;
+  font-size:17px;
+  transition:transform .2s,border-color .2s;
+}
+
+.theme-toggle:hover {
+  transform:translateY(-2px);
+  border-color:var(--accent);
+}
+
+main {
+  width:min(1120px,calc(100% - 40px));
+  margin:0 auto;
+}
+
+.hero {
+  min-height:650px;
+  display:grid;
+  grid-template-columns:1.15fr .85fr;
+  align-items:center;
+  gap:55px;
+  padding:85px 0 90px;
+}
+
+.eyebrow {
+  display:inline-flex;
+  align-items:center;
+  gap:9px;
+  padding:8px 12px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  color:var(--muted);
+  background:var(--surface);
+  font-size:11px;
+  letter-spacing:.13em;
+  text-transform:uppercase;
+}
+
+.pulse {
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:#8bdbad;
+  box-shadow:0 0 12px #8bdbad;
+}
+
+h1 {
+  margin:25px 0 18px;
+  font-size:clamp(54px,8vw,96px);
+  line-height:.94;
+  letter-spacing:-.075em;
+}
+
+h1 span {
+  display:block;
+  background:linear-gradient(100deg,var(--accent),#d5c5ff 55%,#76a9ff);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+
+.intro {
+  max-width:590px;
+  color:var(--muted);
+  font-size:clamp(16px,1.7vw,19px);
+  line-height:1.8;
+}
+
+.actions {
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  margin-top:32px;
+}
+
+.btn {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  padding:14px 19px;
+  border-radius:13px;
+  font-size:13px;
+  font-weight:750;
+  border:1px solid var(--line);
+  transition:transform .2s,box-shadow .2s,border-color .2s;
+}
+
+.btn:hover {
+  transform:translateY(-3px);
+  border-color:var(--accent);
+}
+
+.btn.primary {
+  color:white;
+  border:0;
+  background:linear-gradient(110deg,#7655dc,#5148bb);
+  box-shadow:0 12px 32px var(--glow);
+}
+
+.visual {
+  position:relative;
+  display:grid;
+  place-items:center;
+  min-height:390px;
+}
+
+.orb {
+  position:absolute;
+  width:min(360px,80vw);
+  aspect-ratio:1;
+  border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,rgba(190,160,255,.28),rgba(91,68,175,.09) 42%,transparent 70%);
+  border:1px solid rgba(167,139,250,.24);
+  box-shadow:0 0 100px var(--glow),inset 0 0 60px var(--glow);
+  animation:float 7s ease-in-out infinite;
+}
+
+.orb::before,.orb::after {
+  content:"";
+  position:absolute;
+  inset:22px;
+  border:1px solid rgba(167,139,250,.22);
+  border-radius:50%;
+  transform:rotateX(68deg) rotateZ(25deg);
+}
+
+.orb::after {
+  inset:48px;
+  transform:rotateY(68deg) rotateZ(-25deg);
+}
+
+.monogram {
+  position:relative;
+  z-index:1;
+  font-size:clamp(110px,18vw,190px);
+  font-weight:950;
+  letter-spacing:-.12em;
+  padding-right:.12em;
+  color:transparent;
+  -webkit-text-stroke:1px var(--accent);
+  text-shadow:0 0 55px var(--glow);
+}
+
+.float-tag {
+  position:absolute;
+  padding:11px 14px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:var(--surface);
+  color:var(--muted);
+  font-size:11px;
+  box-shadow:var(--shadow);
+}
+
+.tag-one{top:12%;right:0}
+.tag-two{bottom:12%;left:0}
+
+.section {
+  padding:65px 0;
+  border-top:1px solid var(--line);
+}
+
+.section-head {
+  max-width:650px;
+  margin-bottom:30px;
+}
+
+.kicker {
+  color:var(--accent);
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+}
+
+h2 {
+  margin:12px 0;
+  font-size:clamp(30px,4vw,43px);
+  letter-spacing:-.05em;
+}
+
+.section-head p,.story p {
+  color:var(--muted);
+  line-height:1.85;
+}
+
+.story {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+}
+
+.panel {
+  background:linear-gradient(145deg,var(--surface),var(--surface-2));
+  border:1px solid var(--line);
+  border-radius:20px;
+  padding:27px;
+  box-shadow:var(--shadow);
+}
+
+.year {
+  color:var(--accent);
+  font-size:12px;
+  font-weight:850;
+  letter-spacing:.15em;
+}
+
+.panel h3 {
+  margin:13px 0 8px;
+  font-size:22px;
+}
+
+.panel p{margin-bottom:0}
+
+.links-grid {
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:14px;
+}
+
+.link-card {
+  display:flex;
+  align-items:center;
+  gap:15px;
+  padding:19px;
+  border:1px solid var(--line);
+  border-radius:17px;
+  background:var(--surface);
+  transition:transform .2s,border-color .2s;
+}
+
+.link-card:hover {
+  transform:translateY(-4px);
+  border-color:var(--accent);
+}
+
+.link-icon {
+  width:43px;
+  height:43px;
+  display:grid;
+  place-items:center;
+  flex:0 0 auto;
+  border-radius:13px;
+  background:var(--surface-2);
+  font-size:19px;
+}
+
+.link-card strong {
+  display:block;
+  font-size:14px;
+}
+
+.link-card small {
+  display:block;
+  margin-top:5px;
+  color:var(--muted);
+  font-size:12px;
+}
+
+footer {
+  width:min(1120px,calc(100% - 40px));
+  margin:0 auto;
+  padding:27px 0 38px;
+  border-top:1px solid var(--line);
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  color:var(--muted);
+  font-size:12px;
+}
+
+.reveal {
+  opacity:0;
+  transform:translateY(22px);
+  transition:opacity .7s ease,transform .7s ease;
+}
+
+.reveal.visible {
+  opacity:1;
+  transform:translateY(0);
+}
+
+@keyframes float {
+  0%,100%{transform:translateY(0) rotate(0)}
+  50%{transform:translateY(-13px) rotate(4deg)}
+}
+
+/* PAINEL DE MONITORAMENTO */
+
+.dashboard-grid {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+}
+
+.metric-card {
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:19px;
+  padding:22px;
+  min-width:0;
+  box-shadow:var(--shadow);
+}
+
+.metric-top {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  color:var(--muted);
+  font-size:12px;
+}
+
+.metric-value {
+  font-size:clamp(30px,4vw,43px);
+  font-weight:850;
+  letter-spacing:-.06em;
+  margin:15px 0 4px;
+}
+
+.metric-sub {
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.6;
+}
+
+.live-dot {
+  display:inline-block;
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:#70d6a0;
+  margin-right:6px;
+  box-shadow:0 0 10px #70d6a0;
+}
+
+.latency-chart {
+  width:100%;
+  height:145px;
+  display:block;
+  margin-top:15px;
+}
+
+/* CLIMA */
+
+.weather-search {
+  display:flex;
+  gap:9px;
+  margin:18px 0;
+}
+
+.weather-search input {
+  flex:1;
+  min-width:0;
+  padding:13px 14px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:var(--surface-2);
+  color:var(--text);
+  outline:none;
+  font:inherit;
+  font-size:13px;
+}
+
+.weather-search input:focus{border-color:var(--accent)}
+
+.weather-search button {
+  border:0;
+  border-radius:12px;
+  padding:0 17px;
+  background:linear-gradient(110deg,#7655dc,#5148bb);
+  color:white;
+  font-weight:750;
+  cursor:pointer;
+}
+
+.weather-status {
+  color:var(--muted);
+  font-size:12px;
+  min-height:18px;
+}
+
+.weather-current {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:18px;
+  border-radius:16px;
+  background:var(--surface-2);
+  margin-top:14px;
+}
+
+.weather-temp {
+  font-size:48px;
+  font-weight:850;
+  letter-spacing:-.07em;
+}
+
+.weather-icon{font-size:42px}
+
+.weather-meta {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:9px;
+  margin-top:12px;
+}
+
+.weather-meta div {
+  background:var(--surface-2);
+  border-radius:12px;
+  padding:12px;
+}
+
+.weather-meta small {
+  display:block;
+  color:var(--muted);
+  font-size:10px;
+  margin-bottom:7px;
+}
+
+.weather-meta strong{font-size:14px}
+
+.forecast-list {
+  display:grid;
+  gap:8px;
+  margin-top:14px;
+}
+
+.forecast-day {
+  display:grid;
+  grid-template-columns:1.1fr .6fr 1fr .8fr;
+  align-items:center;
+  gap:8px;
+  padding:12px;
+  background:var(--surface-2);
+  border-radius:12px;
+  font-size:12px;
+}
+
+.forecast-day span:nth-child(2){font-size:18px}
+.forecast-day small{color:var(--muted)}
+
+.rain-panel {
+  margin-top:14px;
+  padding:16px;
+  background:var(--surface-2);
+  border-radius:15px;
+}
+
+.rain-row {
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  font-size:12px;
+  margin:9px 0;
+}
+
+.rain-track {
+  height:7px;
+  border-radius:99px;
+  background:var(--line);
+  overflow:hidden;
+}
+
+.rain-fill {
+  height:100%;
+  border-radius:99px;
+  background:linear-gradient(90deg,#5b9cf5,#9c83ff);
+  width:0%;
+  transition:width .5s;
+}
+
+.weather-credit {
+  color:var(--muted);
+  font-size:10px;
+  margin-top:14px;
+}
+
+@media(max-width:760px) {
+  .dashboard-grid{grid-template-columns:1fr}
+  .weather-meta{grid-template-columns:repeat(2,1fr)}
+  .forecast-day{grid-template-columns:1fr .5fr 1fr .8fr;font-size:11px}
+  .weather-search button{padding:0 13px}
+  .nav{height:70px}
+  .nav-right a{display:none}
+  .hero{grid-template-columns:1fr;gap:10px;padding:75px 0 55px}
+  .visual{min-height:300px;order:-1}
+  .orb{width:260px}
+  .monogram{font-size:130px}
+  .tag-one{right:5%}
+  .tag-two{left:5%}
+  .story,.links-grid{grid-template-columns:1fr}
+  .section{padding:48px 0}
+  footer{flex-direction:column}
+}
+
+@media(prefers-reduced-motion:reduce) {
+  *,*::before,*::after {
+    scroll-behavior:auto!important;
+    animation-duration:.01ms!important;
+    transition-duration:.01ms!important;
+  }
+  .reveal{opacity:1;transform:none}
+}
+</style>
+</head>
+
+<body>
+
+<div class="ambient"></div>
+<div class="grid-bg"></div>
+
+<header class="nav">
+  <a class="brand" href="#">
+    <span class="brand-mark">V</span>
+    <span>VORTEX</span>
+  </a>
+
+  <nav class="nav-right">
+    <a href="#historia">História</a>
+    <a href="#painel">Monitoramento</a>
+    <a href="#clima">Clima</a>
+    <a href="#conexoes">Conexões</a>
+    <button class="theme-toggle" id="themeToggle">☼</button>
+  </nav>
+</header>
+
+<main>
+
+<section class="hero">
+  <div class="hero-copy">
+    <div class="eyebrow">
+      <span class="pulse"></span>
+      Uma trajetória desde 2020
+    </div>
+
+    <h1>Quem é <span>Raven?</span></h1>
+
+    <p class="intro">
+      Conhecido atualmente como <strong>Vortex</strong>, Raven iniciou sua trajetória em 2020,
+      ainda como <strong>JHX MODS</strong>. Desde então, o nome mudou, a identidade evoluiu
+      e a jornada continuou — sempre construindo, criando e explorando novas ideias.
+    </p>
+
+    <div class="actions">
+      <a class="btn primary" href="https://www.youtube.com/@Vortex-Ofc1" target="_blank">
+        ▶ Conhecer o canal
+      </a>
+      <a class="btn" href="#historia">Explorar história ↘</a>
+    </div>
+  </div>
+
+  <div class="visual">
+    <div class="orb"></div>
+    <div class="monogram">V</div>
+    <div class="float-tag tag-one">RAVEN // VORTEX</div>
+    <div class="float-tag tag-two">EST. 2020 · JHX MODS</div>
+  </div>
+</section>
+
+<section class="section reveal" id="historia">
+  <div class="section-head">
+    <div class="kicker">A origem</div>
+    <h2>Uma identidade em evolução.</h2>
+    <p>
+      Tudo começou com um nome. Com o tempo, essa primeira fase abriu caminho
+      para uma nova identidade: VORTEX.
+    </p>
+  </div>
+
+  <div class="story">
+    <article class="panel">
+      <div class="year">2020 — O COMEÇO</div>
+      <h3>JHX MODS</h3>
+      <p>
+        O início da caminhada de Raven na criação de conteúdo e projetos digitais.
+        Foi nessa fase que tudo começou a ganhar forma.
+      </p>
+    </article>
+
+    <article class="panel">
+      <div class="year">ATUALMENTE — NOVA FASE</div>
+      <h3>VORTEX</h3>
+      <p>
+        Uma identidade renovada, que representa a continuidade dessa trajetória
+        e os projetos que seguem sendo desenvolvidos.
+      </p>
+    </article>
+  </div>
+</section>
+
+<section class="section reveal" id="painel">
+  <div class="section-head">
+    <div class="kicker">Dados em tempo real</div>
+    <h2>VORTEX // Monitoramento</h2>
+    <p>
+      Informações do navegador, conexão, visitas e latência da rede.
+    </p>
+  </div>
+
+  <div class="dashboard-grid">
+
+    <article class="metric-card">
+      <div class="metric-top">
+        <span><span class="live-dot"></span>Latência da rede</span>
+        <span id="latencyState">Iniciando...</span>
+      </div>
+
+      <div class="metric-value">
+        <span id="latencyValue">--</span>
+        <span style="font-size:16px;color:var(--muted);letter-spacing:0"> ms</span>
+      </div>
+
+      <div class="metric-sub">
+        Tempo de resposta da API medido neste navegador
+      </div>
+
+      <canvas id="latencyChart" class="latency-chart"></canvas>
+    </article>
+
+    <article class="metric-card">
+      <div class="metric-top">
+        <span>Visitas neste navegador</span>
+        <span>◉ LOCAL</span>
+      </div>
+
+      <div class="metric-value" id="visitCount">1</div>
+
+      <div class="metric-sub">
+        Contagem salva neste dispositivo e navegador.
+      </div>
+    </article>
+
+    <article class="metric-card">
+      <div class="metric-top">
+        <span>Tempo de trajetória</span>
+        <span>DESDE 2020</span>
+      </div>
+
+      <div class="metric-value">
+        <span id="yearsCount">6</span>
+        <span style="font-size:16px;color:var(--muted);letter-spacing:0"> anos</span>
+      </div>
+
+      <div class="metric-sub" id="journeyDetail">
+        Uma história em constante evolução.
+      </div>
+    </article>
+
+    <article class="metric-card">
+      <div class="metric-top">
+        <span>Conexão do navegador</span>
+        <span>STATUS</span>
+      </div>
+
+      <div class="metric-value" id="connectionType" style="font-size:28px">
+        Detectando...
+      </div>
+
+      <div class="metric-sub" id="connectionDetail">
+        Informação fornecida pelo navegador.
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<section class="section reveal" id="clima">
+  <div class="section-head">
+    <div class="kicker">Previsão meteorológica</div>
+    <h2>Como está o tempo?</h2>
+    <p>
+      Sua região é identificada automaticamente pelo IP público da conexão.
+      Você também pode pesquisar outra cidade.
+    </p>
+  </div>
+
+  <article class="metric-card">
+
+    <div class="weather-status" id="weatherStatus">
+      Identificando sua região pelo IP...
+    </div>
+
+    <form class="weather-search" id="weatherForm">
+      <input
+        id="cityInput"
+        type="search"
+        placeholder="Ou digite outra cidade..."
+        aria-label="Pesquisar outra cidade"
+      >
+      <button type="submit">Pesquisar</button>
+    </form>
+
+    <div id="weatherResult" hidden>
+
+      <div class="weather-current">
+        <div>
+          <div id="weatherPlace" style="font-weight:800;font-size:15px">--</div>
+          <div id="weatherDescription" style="color:var(--muted);font-size:12px;margin-top:5px">--</div>
+
+          <div class="weather-temp">
+            <span id="weatherTemp">--</span>
+            <span style="font-size:19px">°C</span>
+          </div>
+        </div>
+
+        <div class="weather-icon" id="weatherIcon">🌤️</div>
+      </div>
+
+      <div class="weather-meta">
+        <div><small>SENSAÇÃO TÉRMICA</small><strong id="weatherFeels">--</strong></div>
+        <div><small>UMIDADE</small><strong id="weatherHumidity">--</strong></div>
+        <div><small>VENTO</small><strong id="weatherWind">--</strong></div>
+        <div><small>PRECIPITAÇÃO ATUAL</small><strong id="weatherRainNow">--</strong></div>
+        <div><small>ÍNDICE UV MÁX.</small><strong id="weatherUV">--</strong></div>
+        <div><small>FUSO HORÁRIO</small><strong id="weatherTimezone">--</strong></div>
+      </div>
+
+      <div class="rain-panel">
+        <div style="font-weight:800;font-size:13px">
+          🌧️ Probabilidade de chuva hoje
+        </div>
+
+        <div class="rain-row">
+          <span>Chance máxima prevista</span>
+          <strong id="rainProbability">--</strong>
+        </div>
+
+        <div class="rain-track">
+          <div class="rain-fill" id="rainProbabilityBar"></div>
+        </div>
+
+        <div class="rain-row" style="margin-top:14px">
+          <span>Volume estimado para hoje</span>
+          <strong id="rainAmount">--</strong>
+        </div>
+
+        <div class="rain-row">
+          <span>Horas com precipitação prevista</span>
+          <strong id="rainHours">--</strong>
+        </div>
+      </div>
+
+      <div style="font-weight:800;font-size:14px;margin-top:22px">
+        Previsão para os próximos 7 dias
+      </div>
+
+      <div class="forecast-list" id="forecastList"></div>
+
+      <div class="weather-credit">
+        Dados meteorológicos:
+        <a href="https://open-meteo.com/" target="_blank" style="text-decoration:underline">
+          Open-Meteo
+        </a>.
+        As previsões são estimativas e podem mudar.
+      </div>
+
+    </div>
+  </article>
+</section>
+
+<section class="section reveal" id="conexoes">
+  <div class="section-head">
+    <div class="kicker">Encontre por aqui</div>
+    <h2>Conecte-se com Vortex.</h2>
+    <p>Acompanhe os conteúdos e veja os projetos em desenvolvimento.</p>
+  </div>
+
+  <div class="links-grid">
+    <a class="link-card" href="https://www.youtube.com/@Vortex-Ofc1" target="_blank">
+      <span class="link-icon">▶</span>
+      <span>
+        <strong>YouTube</strong>
+        <small>@Vortex-Ofc1 · Canal oficial</small>
+      </span>
+    </a>
+
+    <a class="link-card" href="https://github.com/ffvortex20-lgtm" target="_blank">
+      <span class="link-icon">⌘</span>
+      <span>
+        <strong>GitHub</strong>
+        <small>Projetos e desenvolvimento</small>
+      </span>
+    </a>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <span>© <span id="year"></span> VORTEX. Todos os direitos reservados.</span>
+  <span>Raven · Desde 2020</span>
+</footer>
+
+<script>
+/* =========================================
+   TEMA ESCURO / CLARO
+========================================= */
+
+const root = document.documentElement;
+const toggle = document.getElementById('themeToggle');
+
+const savedTheme = localStorage.getItem('vortex-theme');
+const systemDark = window.matchMedia('(prefers-color-scheme: dark)');
+
+function applyTheme(theme) {
+  root.dataset.theme = theme;
+
+  toggle.textContent = theme === 'dark' ? '☼' : '☾';
+
+  toggle.setAttribute(
+    'aria-label',
+    theme === 'dark' ? 'Ativar tema claro' : 'Ativar tema escuro'
+  );
+
+  document.querySelector('meta[name="theme-color"]').content =
+    theme === 'dark' ? '#101014' : '#f3f3f7';
+}
+
+applyTheme(savedTheme || (systemDark.matches ? 'dark' : 'light'));
+
+toggle.addEventListener('click', () => {
+  const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+
+  localStorage.setItem('vortex-theme', next);
+  applyTheme(next);
+});
+
+systemDark.addEventListener?.('change', event => {
+  if (!localStorage.getItem('vortex-theme')) {
+    applyTheme(event.matches ? 'dark' : 'light');
+  }
+});
+
+document.getElementById('year').textContent = new Date().getFullYear();
+
+
+/* =========================================
+   ANIMAÇÕES AO ROLAR A PÁGINA
+========================================= */
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, {threshold:0.12});
+
+document.querySelectorAll('.reveal').forEach(el => {
+  observer.observe(el);
+});
+
+
+/* =========================================
+   CONTADOR DE VISITAS LOCAL
+========================================= */
+
+const visitKey = 'vortex-raven-local-visits';
+
+let localVisits = Number(localStorage.getItem(visitKey) || 0) + 1;
+
+localStorage.setItem(visitKey, String(localVisits));
+
+document.getElementById('visitCount').textContent =
+  localVisits.toLocaleString('pt-BR');
+
+
+/* =========================================
+   ANOS DESDE 2020
+========================================= */
+
+const now = new Date();
+
+const years = now.getFullYear() - 2020;
+
+document.getElementById('yearsCount').textContent = Math.max(0, years);
+
+document.getElementById('journeyDetail').textContent =
+  `De 2020 até ${now.getFullYear()} · ${now.getFullYear() - 2020 + 1}º ano de trajetória.`;
+
+
+/* =========================================
+   INFORMAÇÕES DA CONEXÃO
+========================================= */
+
+const net =
+  navigator.connection ||
+  navigator.mozConnection ||
+  navigator.webkitConnection;
+
+document.getElementById('connectionType').textContent =
+  net ? (net.effectiveType || net.type || 'Disponível') : 'Não informado';
+
+document.getElementById('connectionDetail').textContent =
+  net
+    ? `Downlink estimado: ${net.downlink ? net.downlink + ' Mb/s' : 'não informado'} · Economia de dados: ${net.saveData ? 'ativada' : 'desativada'}`
+    : 'Este navegador não expõe detalhes do tipo de conexão.';
+
+
+/* =========================================
+   GRÁFICO DE LATÊNCIA
+========================================= */
+
+const latencySamples = [];
+const chart = document.getElementById('latencyChart');
+const ctx = chart.getContext('2d');
+
+function drawLatency() {
+  const rect = chart.getBoundingClientRect();
+  const dpr = window.devicePixelRatio || 1;
+
+  chart.width = Math.max(1, rect.width * dpr);
+  chart.height = Math.max(1, rect.height * dpr);
+
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+  const w = rect.width;
+  const h = rect.height;
+
+  ctx.clearRect(0, 0, w, h);
+
+  ctx.strokeStyle = getComputedStyle(document.documentElement)
+    .getPropertyValue('--line');
+
+  ctx.lineWidth = 1;
+
+  for (let i = 1; i <= 3; i++) {
+    const y = h * i / 4;
+
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(w, y);
+    ctx.stroke();
+  }
+
+  if (!latencySamples.length) return;
+
+  const max = Math.max(100, ...latencySamples) * 1.2;
+
+  const points = latencySamples.map((v, i) => ({
+    x: latencySamples.length === 1
+      ? w / 2
+      : i * w / (latencySamples.length - 1),
+
+    y: h - ((v / max) * (h - 12)) - 6
+  }));
+
+  const grad = ctx.createLinearGradient(0, 0, w, 0);
+
+  grad.addColorStop(0, '#6d5dfc');
+  grad.addColorStop(1, '#a78bfa');
+
+  ctx.strokeStyle = grad;
+  ctx.lineWidth = 2.5;
+  ctx.beginPath();
+
+  points.forEach((p, i) => {
+    if (i) ctx.lineTo(p.x, p.y);
+    else ctx.moveTo(p.x, p.y);
+  });
+
+  ctx.stroke();
+
+  points.forEach(p => {
+    ctx.fillStyle = '#a78bfa';
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, 3, 0, Math.PI * 2);
+    ctx.fill();
+  });
+}
+
+async function measureLatency() {
+  const start = performance.now();
+
+  try {
+    await fetch(
+      'https://geocoding-api.open-meteo.com/v1/search?name=Recife&count=1&language=pt&format=json',
+      {cache:'no-store'}
+    );
+
+    const ms = Math.round(performance.now() - start);
+
+    latencySamples.push(ms);
+
+    if (latencySamples.length > 24) {
+      latencySamples.shift();
+    }
+
+    document.getElementById('latencyValue').textContent = ms;
+
+    document.getElementById('latencyState').textContent =
+      ms < 100 ? 'Excelente' :
+      ms < 250 ? 'Normal' :
+      ms < 500 ? 'Elevada' : 'Muito elevada';
+
+    drawLatency();
+
+  } catch (error) {
+    document.getElementById('latencyValue').textContent = '—';
+    document.getElementById('latencyState').textContent = 'Indisponível';
+  }
+}
+
+measureLatency();
+
+setInterval(measureLatency, 15000);
+
+window.addEventListener('resize', drawLatency);
+
+
+/* =========================================
+   SISTEMA DE CLIMA
+   LOCALIZAÇÃO AUTOMÁTICA PELO IP
+========================================= */
+
+const weatherForm = document.getElementById('weatherForm');
+const cityInput = document.getElementById('cityInput');
+const weatherStatus = document.getElementById('weatherStatus');
+const weatherResult = document.getElementById('weatherResult');
+
+const weatherCodes = {
+  0:['Céu limpo','☀️'],
+  1:['Predominantemente limpo','🌤️'],
+  2:['Parcialmente nublado','⛅'],
+  3:['Nublado','☁️'],
+  45:['Nevoeiro','🌫️'],
+  48:['Nevoeiro com geada','🌫️'],
+  51:['Garoa leve','🌦️'],
+  53:['Garoa moderada','🌦️'],
+  55:['Garoa intensa','🌧️'],
+  56:['Garoa congelante leve','🌧️'],
+  57:['Garoa congelante intensa','🌧️'],
+  61:['Chuva leve','🌦️'],
+  63:['Chuva moderada','🌧️'],
+  65:['Chuva forte','🌧️'],
+  66:['Chuva congelante leve','🌧️'],
+  67:['Chuva congelante forte','🌧️'],
+  71:['Neve leve','🌨️'],
+  73:['Neve moderada','🌨️'],
+  75:['Neve forte','❄️'],
+  77:['Grãos de neve','🌨️'],
+  80:['Pancadas leves','🌦️'],
+  81:['Pancadas moderadas','🌧️'],
+  82:['Pancadas fortes','⛈️'],
+  85:['Pancadas de neve','🌨️'],
+  86:['Pancadas fortes de neve','🌨️'],
+  95:['Trovoada','⛈️'],
+  96:['Trovoada com granizo','⛈️'],
+  99:['Trovoada forte com granizo','⛈️']
+};
+
+const val = (n, suffix = '') =>
+  n == null ? '--' : `${Math.round(n * 10) / 10}${suffix}`;
+
+function dateLabel(date) {
+  return new Date(date + 'T12:00:00').toLocaleDateString(
+    'pt-BR',
+    {weekday:'short',day:'2-digit',month:'2-digit'}
+  );
+}
+
+
+/* =========================================
+   BUSCAR PREVISÃO POR COORDENADAS
+========================================= */
+
+async function loadWeatherForCoordinates(latitude, longitude, placeLabel) {
+  weatherStatus.textContent = `Carregando previsão para ${placeLabel}...`;
+
+  weatherResult.hidden = true;
+
+  const params = new URLSearchParams({
+    latitude,
+    longitude,
+
+    current:
+      'temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,wind_speed_10m',
+
+    hourly:
+      'precipitation_probability,precipitation,temperature_2m',
+
+    daily:
+      'weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max,uv_index_max',
+
+    forecast_days:'7',
+    timezone:'auto'
+  });
+
+  const response = await fetch(
+    `https://api.open-meteo.com/v1/forecast?${params}`
+  );
+
+  if (!response.ok) {
+    throw new Error('O serviço de previsão não respondeu. Tente novamente.');
+  }
+
+  const data = await response.json();
+
+  const current = data.current;
+  const daily = data.daily;
+  const hourly = data.hourly;
+
+  const desc = weatherCodes[current.weather_code] ||
+    ['Condição não disponível','🌡️'];
+
+  document.getElementById('weatherPlace').textContent = placeLabel;
+  document.getElementById('weatherDescription').textContent = desc[0];
+  document.getElementById('weatherIcon').textContent = desc[1];
+
+  document.getElementById('weatherTemp').textContent =
+    Math.round(current.temperature_2m);
+
+  document.getElementById('weatherFeels').textContent =
+    val(current.apparent_temperature, ' °C');
+
+  document.getElementById('weatherHumidity').textContent =
+    val(current.relative_humidity_2m, '%');
+
+  document.getElementById('weatherWind').textContent =
+    val(current.wind_speed_10m, ' km/h');
+
+  document.getElementById('weatherRainNow').textContent =
+    val(current.precipitation, ' mm');
+
+  document.getElementById('weatherUV').textContent =
+    val(daily.uv_index_max?.[0]);
+
+  document.getElementById('weatherTimezone').textContent =
+    data.timezone_abbreviation || data.timezone || '--';
+
+
+  /* CHUVA */
+
+  const maxProb = daily.precipitation_probability_max?.[0] ?? 0;
+  const rainSum = daily.precipitation_sum?.[0] ?? 0;
+
+  const rainyHours = hourly.precipitation
+    .slice(0, 24)
+    .filter(x => x > 0.1).length;
+
+  document.getElementById('rainProbability').textContent =
+    `${maxProb}%`;
+
+  document.getElementById('rainProbabilityBar').style.width =
+    `${Math.max(0, Math.min(100, maxProb))}%`;
+
+  document.getElementById('rainAmount').textContent =
+    `${val(rainSum)} mm`;
+
+  document.getElementById('rainHours').textContent =
+    `${rainyHours} h (estimativa)`;
+
+
+  /* PREVISÃO DOS 7 DIAS */
+
+  const list = document.getElementById('forecastList');
+
+  list.replaceChildren();
+
+  daily.time.forEach((day, i) => {
+    const code = weatherCodes[daily.weather_code[i]] ||
+      ['Condição variável','🌡️'];
+
+    const row = document.createElement('div');
+    row.className = 'forecast-day';
+
+    const date = document.createElement('strong');
+    date.textContent = i === 0 ? 'Hoje' : dateLabel(day);
+
+    const icon = document.createElement('span');
+    icon.textContent = code[1];
+
+    const temp = document.createElement('span');
+    temp.textContent =
+      `${Math.round(daily.temperature_2m_min[i])}° / ${Math.round(daily.temperature_2m_max[i])}°`;
+
+    const rain = document.createElement('small');
+    rain.textContent =
+      `🌧 ${daily.precipitation_probability_max[i] ?? 0}%`;
+
+    row.append(date, icon, temp, rain);
+    list.appendChild(row);
+  });
+
+  weatherResult.hidden = false;
+
+  weatherStatus.textContent =
+    `Localização aproximada pelo IP · Atualizado às ${
+      new Date().toLocaleTimeString('pt-BR',{
+        hour:'2-digit',
+        minute:'2-digit'
+      })
+    }.`;
+}
+
+
+/* =========================================
+   PESQUISAR CIDADE MANUALMENTE
+========================================= */
+
+async function searchCity(city) {
+  weatherStatus.textContent = `Pesquisando ${city}...`;
+
+  const geoUrl =
+    `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1&language=pt&format=json`;
+
+  const geoRes = await fetch(geoUrl);
+
+  if (!geoRes.ok) {
+    throw new Error('Não foi possível pesquisar essa cidade.');
+  }
+
+  const geo = await geoRes.json();
+
+  if (!geo.results || !geo.results.length) {
+    throw new Error('Cidade não encontrada. Confira o nome e tente novamente.');
+  }
+
+  const place = geo.results[0];
+
+  const label = [
+    place.name,
+    place.admin1,
+    place.country
+  ].filter(Boolean).join(' · ');
+
+  await loadWeatherForCoordinates(
+    place.latitude,
+    place.longitude,
+    label
+  );
+}
+
+
+/* =========================================
+   DETECTAR CIDADE PELO IP
+========================================= */
+
+async function detectCityByIP() {
+  weatherStatus.textContent =
+    'Detectando cidade aproximada pelo IP...';
+
+  try {
+    const response = await fetch('https://ipwho.is/');
+
+    if (!response.ok) {
+      throw new Error('Não foi possível detectar a região pelo IP.');
+    }
+
+    const ipData = await response.json();
+
+    if (
+      ipData.success === false ||
+      typeof ipData.latitude !== 'number' ||
+      typeof ipData.longitude !== 'number'
+    ) {
+      throw new Error('O serviço de IP não conseguiu identificar sua região.');
+    }
+
+    const city = ipData.city || 'Sua região';
+    const region = ipData.region || '';
+    const country = ipData.country || '';
+
+    const label = [
+      city,
+      region,
+      country
+    ].filter(Boolean).join(' · ');
+
+    await loadWeatherForCoordinates(
+      ipData.latitude,
+      ipData.longitude,
+      label
+    );
+
+    cityInput.placeholder =
+      `Sua região: ${city} · Pesquisar outra cidade`;
+
+  } catch (error) {
+    weatherStatus.textContent =
+      `${error.message} Você pode pesquisar uma cidade manualmente abaixo.`;
+  }
+}
+
+
+/* =========================================
+   EVENTOS DO FORMULÁRIO
+========================================= */
+
+weatherForm.addEventListener('submit', async event => {
+  event.preventDefault();
+
+  const city = cityInput.value.trim();
+
+  if (!city) {
+    detectCityByIP();
+    return;
+  }
+
+  try {
+    await searchCity(city);
+  } catch (error) {
+    weatherStatus.textContent =
+      error.message || 'Erro ao consultar a previsão.';
+  }
+});
+
+
+/* =========================================
+   INICIAR DETECÇÃO AUTOMÁTICA
+========================================= */
+
+detectCityByIP();
+
+</script>
+</body>
+</html>
