@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VORTEX KEY</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --bg:#060609;
+    --card:#101016;
+    --border:rgba(255,255,255,.09);
+    --purple:#8957ff;
+    --blue:#00d9ff;
+    --text:#fff;
+    --muted:#858597;
+    --green:#00e6a0;
+}
+*{box-sizing:border-box;margin:0;padding:0;font-family:Inter,sans-serif}
+body{
+    min-height:100vh;background:var(--bg);color:var(--text);
+    display:flex;align-items:center;justify-content:center;
+    padding:20px;overflow-x:hidden;
+}
+body:before{
+    content:"";position:fixed;inset:0;pointer-events:none;
+    background:radial-gradient(ellipse at 15% 15%,rgba(137,87,255,.15),transparent 45%),
+    radial-gradient(ellipse at 85% 85%,rgba(0,217,255,.10),transparent 45%);
+}
+#particles{position:fixed;inset:0;pointer-events:none;overflow:hidden}
+.particle{
+    position:absolute;bottom:-10px;width:3px;height:3px;border-radius:50%;
+    background:var(--blue);box-shadow:0 0 10px var(--blue);
+    animation:float linear infinite;opacity:0;
+}
+@keyframes float{
+    0%{transform:translateY(0);opacity:0}
+    20%{opacity:.6}100%{transform:translateY(-110vh);opacity:0}
+}
+.container{width:100%;max-width:440px;position:relative;z-index:1;animation:appear .7s ease}
+@keyframes appear{from{opacity:0;transform:translateY(25px)}to{opacity:1;transform:translateY(0)}}
+.card{
+    position:relative;overflow:hidden;padding:30px 25px;
+    background:linear-gradient(145deg,rgba(20,20,30,.96),rgba(10,10,16,.98));
+    border:1px solid var(--border);border-radius:24px;
+    box-shadow:0 25px 80px #0009,0 0 35px #8957ff0c;
+}
+.card:before{
+    content:"";position:absolute;top:0;left:15%;width:70%;height:1px;
+    background:linear-gradient(90deg,transparent,var(--purple),var(--blue),transparent);
+}
+.header{text-align:center;margin-bottom:24px}
+.logo{
+    width:70px;height:70px;border-radius:22px;object-fit:cover;
+    border:1px solid #8957ff66;padding:3px;
+    box-shadow:0 0 25px #8957ff33;margin-bottom:16px;
+}
+h1{font-size:25px;font-weight:900;letter-spacing:1px}
+h1 span{
+    background:linear-gradient(90deg,var(--purple),var(--blue));
+    -webkit-background-clip:text;color:transparent;
+}
+.subtitle{font-size:10px;color:var(--muted);letter-spacing:2px;margin-top:8px}
+.status{
+    display:inline-flex;align-items:center;gap:8px;margin-bottom:22px;
+    border:1px solid #00e6a033;background:#00e6a00c;
+    color:var(--green);border-radius:30px;padding:8px 14px;
+    font-size:10px;font-weight:800;letter-spacing:1px;
+}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);animation:pulse 1.5s infinite}
+@keyframes pulse{50%{opacity:.3;transform:scale(.7)}}
+.key-box{
+    padding:22px 15px;background:#050509;border:1px solid #ffffff12;
+    border-radius:16px;text-align:center;margin-bottom:15px;
+    transition:.3s;
+}
+.key-box:hover{border-color:#8957ff77;box-shadow:0 0 25px #8957ff12}
+.label{font-size:10px;color:var(--muted);letter-spacing:2px;font-weight:800;margin-bottom:12px}
+.key-value{font-size:20px;font-weight:900;letter-spacing:1px;overflow-wrap:anywhere}
+button{
+    border:0;cursor:pointer;color:white;font-weight:800;
+    transition:transform .2s,filter .2s,box-shadow .2s;
+}
+button:hover{transform:translateY(-3px);filter:brightness(1.15)}
+button:active{transform:scale(.97)}
+.main-btn{
+    width:100%;padding:16px;border-radius:13px;
+    background:linear-gradient(110deg,#7442ed,#4b9cff);
+    box-shadow:0 8px 25px #7442ed44;font-size:13px;
+}
+.msg{min-height:18px;text-align:center;font-size:11px;color:var(--green);margin-top:12px;font-weight:700}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}
+.stat{
+    padding:14px;background:#ffffff05;border:1px solid var(--border);
+    border-radius:13px;min-width:0;
+}
+.stat span{display:block;color:var(--muted);font-size:9px;font-weight:800;letter-spacing:1px;margin-bottom:7px}
+.stat strong{font-size:12px;overflow-wrap:anywhere}
+.expiry{color:#ffb84d}
+.social{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:15px}
+.social a{
+    text-decoration:none;text-align:center;padding:12px;
+    background:#ffffff06;border:1px solid var(--border);
+    border-radius:12px;color:#bbb;font-size:11px;font-weight:700;
+    transition:.2s;
+}
+.social a:hover{border-color:var(--purple);color:white;background:#8957ff12}
+.footer{text-align:center;margin-top:24px;color:#555565;font-size:9px;letter-spacing:2px;font-weight:800}
+.loading{
+    position:fixed;inset:0;background:#060609;z-index:10;
+    display:flex;align-items:center;justify-content:center;flex-direction:column;
+    transition:opacity .4s;
+}
+.spinner{
+    width:38px;height:38px;border:3px solid #ffffff12;
+    border-top-color:var(--purple);border-right-color:var(--blue);
+    border-radius:50%;animation:spin .7s linear infinite;margin-bottom:15px;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading p{font-size:10px;color:var(--muted);letter-spacing:2px;font-weight:800}
+@media(max-width:380px){.card{padding:25px 17px}.key-value{font-size:17px}}
+</style>
+</head>
+<body>
+
+<div id="particles"></div>
+
+<div class="loading" id="loading">
+    <div class="spinner"></div>
+    <p id="loadingText">CONECTANDO AO SISTEMA...</p>
+</div>
+
+<main class="container">
+<div class="card">
+
+    <header class="header">
+        <img class="logo" src="https://github.com/ffvortex20-lgtm.png?size=256" alt="Vortex">
+        <h1>VORTEX <span>KEY</span></h1>
+        <p class="subtitle">SECURE ACCESS TERMINAL</p>
+    </header>
+
+    <div style="text-align:center">
+        <div class="status"><span class="dot"></span> SISTEMA OPERACIONAL</div>
+    </div>
+
+    <section class="key-box">
+        <div class="label">SUA CHAVE DE ACESSO</div>
+        <div class="key-value" id="keyText">VERIFICANDO...</div>
+    </section>
+
+    <button class="main-btn" id="copyBtn" onclick="copyKey()">
+        ◈ &nbsp; COPIAR KEY
+    </button>
+
+    <div class="msg" id="msg"></div>
+
+    <section class="stats">
+        <div class="stat">
+            <span>GERADA EM</span>
+            <strong id="time">--:--</strong>
+        </div>
+        <div class="stat">
+            <span>EXPIRA EM</span>
+            <strong class="expiry" id="countdown">--:--:--</strong>
+        </div>
+        <div class="stat">
+            <span>SEU IP</span>
+            <strong id="userIp">Consultando...</strong>
+        </div>
+        <div class="stat">
+            <span>STATUS</span>
+            <strong style="color:var(--green)" id="keyStatus">VERIFICANDO</strong>
+        </div>
+    </section>
+
+    <div class="social">
+        <a href="https://whatsapp.com/channel/0029Vb8TG8d6rsQq4XOiIa3N" target="_blank">◉ WhatsApp</a>
+        <a href="https://t.me/vtxmdz" target="_blank">✈ Telegram</a>
+    </div>
+
+    <footer class="footer">DEVELOPED BY VORTEX</footer>
+</div>
+</main>
+
+<script>
+const FIREBASE_URL = "https://vmteam-fcb3e-default-rtdb.firebaseio.com";
+const ONE_DAY = 24 * 60 * 60 * 1000;
+
+let currentKey = "";
+let timer = null;
+let audioContext;
+
+function sound(freq=650,duration=.08){
+    try{
+        audioContext ||= new (window.AudioContext || window.webkitAudioContext)();
+        if(audioContext.state === "suspended") audioContext.resume();
+        const osc=audioContext.createOscillator();
+        const gain=audioContext.createGain();
+        osc.connect(gain);gain.connect(audioContext.destination);
+        osc.frequency.value=freq;
+        osc.type="sine";
+        gain.gain.setValueAtTime(.045,audioContext.currentTime);
+        gain.gain.exponentialRampToValueAtTime(.001,audioContext.currentTime+duration);
+        osc.start();osc.stop(audioContext.currentTime+duration);
+    }catch(e){}
+}
+
+document.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>sound(550)));
+
+const particles=document.getElementById("particles");
+for(let i=0;i<35;i++){
+    const p=document.createElement("i");
+    p.className="particle";
+    p.style.left=Math.random()*100+"%";
+    p.style.animationDuration=(7+Math.random()*12)+"s";
+    p.style.animationDelay=(-Math.random()*15)+"s";
+    p.style.width=p.style.height=(2+Math.random()*3)+"px";
+    particles.appendChild(p);
+}
+
+function setLoading(text){
+    document.getElementById("loadingText").textContent=text;
+}
+
+function hideLoading(){
+    const el=document.getElementById("loading");
+    el.style.opacity="0";
+    setTimeout(()=>el.style.display="none",400);
+}
+
+function safeKey(value){
+    return value.replace(/[.#$\/\[\]]/g,"_");
+}
+
+async function fb(path,options={}){
+    const response=await fetch(`${FIREBASE_URL}/${path}.json`,{
+        ...options,
+        headers:{"Content-Type":"application/json",...(options.headers||{})}
+    });
+    if(!response.ok) throw new Error("Firebase: "+response.status);
+    return response.status===204?null:response.json();
+}
+
+async function getIP(){
+    const r=await fetch("https://api.ipify.org?format=json");
+    if(!r.ok) throw new Error("Não foi possível consultar o IP");
+    const d=await r.json();
+    if(!d.ip) throw new Error("IP inválido");
+    return d.ip;
+}
+
+function generateKey(){
+    const chars="ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+    let result="";
+    for(let i=0;i<12;i++) result+=chars[Math.floor(Math.random()*chars.length)];
+    return "VTX-VIP-"+result;
+}
+
+function generateUID(){
+    return crypto.randomUUID().replace(/-/g,"");
+}
+
+async function deleteExpired(lock,ipPath){
+    if(lock.uid){
+        await fb("KeysUsers/"+safeKey(lock.uid),{method:"DELETE"});
+    }
+    await fb(ipPath,{method:"DELETE"});
+}
+
+function startCountdown(expireTime){
+    clearInterval(timer);
+    function update(){
+        const remaining=expireTime-Date.now();
+        if(remaining<=0){
+            clearInterval(timer);
+            document.getElementById("countdown").textContent="EXPIRADA";
+            document.getElementById("keyStatus").textContent="EXPIRADA";
+            currentKey="";
+            document.getElementById("keyText").textContent="KEY EXPIRADA";
+            document.getElementById("copyBtn").disabled=true;
+            return;
+        }
+        const h=Math.floor(remaining/3600000);
+        const m=Math.floor((remaining%3600000)/60000);
+        const s=Math.floor((remaining%60000)/1000);
+        document.getElementById("countdown").textContent=
+            `${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;
+    }
+    update();
+    timer=setInterval(update,1000);
+}
+
+function showKey(data,ip){
+    currentKey=data.key;
+    document.getElementById("keyText").textContent=data.key;
+    document.getElementById("time").textContent=data.generatedAt||"--";
+    document.getElementById("userIp").textContent=ip;
+    document.getElementById("keyStatus").textContent="ATIVA";
+    document.getElementById("copyBtn").disabled=false;
+    startCountdown(data.expireTime);
+}
+
+async function verifyAndLoadKey(){
+    try{
+        setLoading("CONSULTANDO SEU IP...");
+        const rawIP=await getIP();
+        const ipPath="visitas/ips/"+safeKey(rawIP);
+        document.getElementById("userIp").textContent=rawIP;
+
+        setLoading("VERIFICANDO REGISTRO DA KEY...");
+        let lock=await fb(ipPath);
+
+        if(lock && lock.expireTime){
+            if(Number(lock.expireTime)>Date.now()){
+                showKey(lock,rawIP);
+                document.getElementById("msg").textContent="KEY JÁ REGISTRADA. UTILIZE SUA CHAVE ATUAL.";
+                hideLoading();
+                return;
+            }
+            await deleteExpired(lock,ipPath);
+            lock=null;
+        }
+
+        setLoading("GERANDO SUA CHAVE...");
+        const now=Date.now();
+        const expireTime=now+ONE_DAY;
+        const key=generateKey();
+        const uid=generateUID();
+        const generatedAt=new Date(now).toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"});
+
+        const data={
+            key,
+            uid,
+            ip:rawIP,
+            validade:"1",
+            dispositivos:"1",
+            device:"",
+            status:"ativada",
+            dias:"0",
+            generatedAt,
+            createdAt:now,
+            expireTime
+        };
+
+        const savedKey=await fb("KeysUsers/"+uid,{
+            method:"PUT",
+            body:JSON.stringify(data)
+        });
+
+        if(!savedKey) throw new Error("Não foi possível registrar a key");
+
+        try{
+            await fb(ipPath,{
+                method:"PUT",
+                body:JSON.stringify(data)
+            });
+        }catch(error){
+            await fb("KeysUsers/"+uid,{method:"DELETE"});
+            throw error;
+        }
+
+        showKey(data,rawIP);
+        document.getElementById("msg").textContent="KEY REGISTRADA COM SUCESSO!";
+        sound(850,.2);
+        hideLoading();
+
+    }catch(error){
+        console.error(error);
+        setLoading("ERRO DE CONEXÃO");
+        document.getElementById("keyText").textContent="ERRO AO GERAR";
+        document.getElementById("keyStatus").textContent="ERRO";
+        document.getElementById("msg").textContent="Verifique sua conexão e tente novamente.";
+        setTimeout(hideLoading,1800);
+    }
+}
+
+async function copyKey(){
+    if(!currentKey)return;
+    try{
+        await navigator.clipboard.writeText(currentKey);
+        document.getElementById("msg").textContent="KEY COPIADA COM SUCESSO!";
+        sound(950,.15);
+    }catch(e){
+        const area=document.createElement("textarea");
+        area.value=currentKey;
+        document.body.appendChild(area);
+        area.select();
+        document.execCommand("copy");
+        area.remove();
+        document.getElementById("msg").textContent="KEY COPIADA!";
+    }
+}
+
+verifyAndLoadKey();
+</script>
+</body>
+</html>
