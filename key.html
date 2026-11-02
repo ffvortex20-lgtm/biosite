@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GetKey</title>
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -15,9 +14,7 @@
     --surface: #0e0e14;
     --surface-glass: rgba(14, 14, 20, 0.75);
     --border: rgba(255, 255, 255, 0.08);
-    --border-glow: rgba(120, 80, 255, 0.3);
     --primary: #8a5cf5;
-    --primary-glow: rgba(138, 92, 245, 0.25);
     --accent: #00f2fe;
     --text-main: #ffffff;
     --text-sub: #94a3b8;
@@ -452,19 +449,13 @@ body {
         </div>
 
         <div class="social-links">
-            <a
-                href="https://whatsapp.com/channel/0029Vb8TG8d6rsQq4XOiIa3N"
-                target="_blank"
-                class="social-btn"
-            >
+            <a href="https://whatsapp.com/channel/0029Vb8TG8d6rsQq4XOiIa3N"
+               target="_blank" class="social-btn">
                 💬 WhatsApp
             </a>
 
-            <a
-                href="https://t.me/vtxmdz"
-                target="_blank"
-                class="social-btn"
-            >
+            <a href="https://t.me/vtxmdz"
+               target="_blank" class="social-btn">
                 ✈ Telegram
             </a>
         </div>
@@ -487,10 +478,10 @@ body {
 // CONFIGURAÇÕES
 // ==========================================
 
-const ONE_DAY_MS = 1 * 24 * 60 * 60 * 1000;
+const ONE_DAY_MS = 24 * 60 * 60 * 1000;
 
-// FIREBASE NOVA
-const FIREBASE_URL = "https://vmteam-fcb3e-default-rtdb.firebaseio.com";
+const FIREBASE_URL =
+"https://vmteam-fcb3e-default-rtdb.firebaseio.com";
 
 
 // ==========================================
@@ -537,7 +528,8 @@ for (let i = 0; i < 20; i++) {
 
 function generateFirebaseUID() {
 
-    const chars = '-0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz';
+    const chars =
+    '-0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz';
 
     let uid = '';
 
@@ -554,14 +546,16 @@ function generateFirebaseUID() {
 
 
 // ==========================================
-// GERAR KEY
+// GERAR KEY VORTEX000
 // ==========================================
 
 function generateKey() {
 
-    const digits = Math.floor(1000 + Math.random() * 9000);
+    const digits = String(
+        Math.floor(Math.random() * 1000)
+    ).padStart(3, "0");
 
-    return `VTX-VIP-${digits}`;
+    return `VORTEX${digits}`;
 }
 
 
@@ -579,11 +573,11 @@ function startCountdown(expireTime) {
 
     activeTimer = setInterval(() => {
 
-        const now = new Date().getTime();
+        const now = Date.now();
 
         const distance = expireTime - now;
 
-        if (distance < 0) {
+        if (distance <= 0) {
 
             clearInterval(activeTimer);
 
@@ -609,7 +603,7 @@ function startCountdown(expireTime) {
         );
 
         document.getElementById("countdown").textContent =
-            `${hours}h ${minutes}m ${seconds}s`;
+        `${hours}h ${minutes}m ${seconds}s`;
 
     }, 1000);
 }
@@ -654,7 +648,7 @@ async function incrementVisitasTotal() {
             const data = await res.json();
 
             if (data !== null) {
-                currentTotal = parseInt(data);
+                currentTotal = parseInt(data) || 0;
             }
 
         }
@@ -692,6 +686,10 @@ async function getIpAndValidate() {
             "https://api.ipify.org?format=json"
         );
 
+        if (!ipRes.ok) {
+            throw new Error("Não foi possível obter o IP.");
+        }
+
         const ipData = await ipRes.json();
 
         const rawIp = ipData.ip;
@@ -707,41 +705,41 @@ async function getIpAndValidate() {
             `${FIREBASE_URL}/visitas/ips/${ip}.json`
         );
 
-        if (lockRes.ok) {
+        if (!lockRes.ok) {
+            throw new Error("Erro ao consultar IP no Firebase.");
+        }
 
-            const lockData = await lockRes.json();
+        const lockData = await lockRes.json();
 
-            const now = new Date().getTime();
+        const now = Date.now();
 
-            if (
-                lockData &&
-                lockData.expireTime &&
-                lockData.expireTime > now
-            ) {
+        if (
+            lockData &&
+            lockData.expireTime &&
+            lockData.expireTime > now
+        ) {
 
-                document.getElementById("keyText").textContent =
-                    lockData.key;
+            document.getElementById("keyText").textContent =
+            lockData.key;
 
-                document.getElementById("time").textContent =
-                    lockData.generatedAt;
+            document.getElementById("time").textContent =
+            lockData.generatedAt;
 
-                startCountdown(lockData.expireTime);
+            startCountdown(lockData.expireTime);
 
-                hideLoading();
+            hideLoading();
 
-                localStorage.setItem(
-                    'vtx_session_v58',
-                    JSON.stringify({
-                        key: lockData.key,
-                        generatedAt: lockData.generatedAt,
-                        ip: rawIp,
-                        expireTime: lockData.expireTime
-                    })
-                );
+            localStorage.setItem(
+                "vtx_session_v58",
+                JSON.stringify({
+                    key: lockData.key,
+                    generatedAt: lockData.generatedAt,
+                    ip: rawIp,
+                    expireTime: lockData.expireTime
+                })
+            );
 
-                return null;
-
-            }
+            return null;
 
         }
 
@@ -749,30 +747,34 @@ async function getIpAndValidate() {
 
     } catch (e) {
 
-        document.getElementById("userIp").textContent =
-            "DESCONHECIDO";
+        console.error("Erro ao validar IP:", e);
 
-        return "IP_DESCONHECIDO_" + Math.floor(Math.random() * 1000);
+        document.getElementById("userIp").textContent =
+        "DESCONHECIDO";
+
+        return "IP_DESCONHECIDO_" + Math.floor(
+            Math.random() * 1000
+        );
 
     }
 }
 
 
 // ==========================================
-// GERAR E CARREGAR KEY
+// GERAR E SALVAR KEY NO FIREBASE
 // ==========================================
 
 async function verifyAndLoadKey() {
 
     try {
 
-        const now = new Date().getTime();
+        const now = Date.now();
 
 
         // VERIFICAR SESSÃO LOCAL
 
         const sessionData = JSON.parse(
-            localStorage.getItem('vtx_session_v58') || "null"
+            localStorage.getItem("vtx_session_v58") || "null"
         );
 
         if (
@@ -781,13 +783,13 @@ async function verifyAndLoadKey() {
         ) {
 
             document.getElementById("keyText").textContent =
-                sessionData.key;
+            sessionData.key;
 
             document.getElementById("time").textContent =
-                sessionData.generatedAt || "--";
+            sessionData.generatedAt || "--";
 
             document.getElementById("userIp").textContent =
-                sessionData.ip || "Local";
+            sessionData.ip || "Local";
 
             startCountdown(sessionData.expireTime);
 
@@ -809,7 +811,7 @@ async function verifyAndLoadKey() {
         }
 
 
-        // GERAR NOVA KEY
+        // GERAR KEY E UID
 
         setLoadMsg("GERANDO NOVA KEY...");
 
@@ -828,31 +830,31 @@ async function verifyAndLoadKey() {
         const expireTime = now + ONE_DAY_MS;
 
 
-        // DADOS DA KEY
+        // ESTRUTURA EXATAMENTE COMO NA IMAGEM
 
         const payloadData = {
 
-            key: newKey,
-
-            validade: "1",
-
-            dispositivos: "1",
-
             device: "",
-
-            status: "ativada",
 
             dias: "0",
 
-            uid: UID
+            dispositivos: "1",
+
+            key: newKey,
+
+            status: "ativada",
+
+            uid: UID,
+
+            validade: "1"
 
         };
 
 
-        // SALVAR KEY NO FIREBASE
+        // SALVAR EM usuariosT/UID
 
-        const saveKeyResponse = await fetch(
-            `${FIREBASE_URL}/KeysUsers/${UID}.json`,
+        const saveResponse = await fetch(
+            `${FIREBASE_URL}/usuariosT/${UID}.json`,
             {
                 method: "PUT",
 
@@ -864,8 +866,12 @@ async function verifyAndLoadKey() {
             }
         );
 
-        if (!saveKeyResponse.ok) {
-            throw new Error("Erro ao salvar KEY no Firebase");
+        if (!saveResponse.ok) {
+
+            throw new Error(
+                "Erro ao salvar KEY em usuariosT."
+            );
+
         }
 
 
@@ -884,8 +890,8 @@ async function verifyAndLoadKey() {
 
                     body: JSON.stringify({
                         key: newKey,
-                        expireTime,
-                        generatedAt
+                        expireTime: expireTime,
+                        generatedAt: generatedAt
                     })
                 }
             ).catch(e => {
@@ -907,12 +913,12 @@ async function verifyAndLoadKey() {
             : ip.replace(/_/g, ".");
 
         localStorage.setItem(
-            'vtx_session_v58',
+            "vtx_session_v58",
             JSON.stringify({
                 key: newKey,
-                generatedAt,
+                generatedAt: generatedAt,
                 ip: rawIp,
-                expireTime
+                expireTime: expireTime
             })
         );
 
@@ -920,13 +926,13 @@ async function verifyAndLoadKey() {
         // ATUALIZAR INTERFACE
 
         document.getElementById("keyText").textContent =
-            newKey;
+        newKey;
 
         document.getElementById("time").textContent =
-            generatedAt;
+        generatedAt;
 
         document.getElementById("msg").textContent =
-            "KEY REGISTRADA COM SUCESSO";
+        "KEY REGISTRADA COM SUCESSO";
 
         startCountdown(expireTime);
 
@@ -934,9 +940,12 @@ async function verifyAndLoadKey() {
 
     } catch (e) {
 
-        console.error("Erro ao gerar KEY:", e);
+        console.error("ERRO AO GERAR KEY:", e);
 
         setLoadMsg("ERRO AO CONECTAR");
+
+        document.getElementById("msg").textContent =
+        "NÃO FOI POSSÍVEL GERAR A KEY";
 
         setTimeout(hideLoading, 1500);
 
@@ -952,7 +961,7 @@ async function verifyAndLoadKey() {
 function triggerSuccess() {
 
     document.getElementById("msg").textContent =
-        "KEY COPIADA COM SUCESSO";
+    "KEY COPIADA COM SUCESSO";
 
     setTimeout(() => {
 
@@ -998,7 +1007,7 @@ function copyKey() {
 
 
 // ==========================================
-// MÉTODO ALTERNATIVO DE CÓPIA
+// CÓPIA ALTERNATIVA
 // ==========================================
 
 function fallbackCopy(text) {
@@ -1017,7 +1026,7 @@ function fallbackCopy(text) {
 
     try {
 
-        if (document.execCommand('copy')) {
+        if (document.execCommand("copy")) {
             triggerSuccess();
         }
 
@@ -1035,6 +1044,5 @@ function fallbackCopy(text) {
 verifyAndLoadKey();
 
 </script>
-
 </body>
 </html>
