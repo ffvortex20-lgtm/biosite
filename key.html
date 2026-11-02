@@ -1,1048 +1,862 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GetKey</title>
+<meta name="theme-color" content="#07060c">
+<title>VORTEX KEY • Premium Terminal</title>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
 :root {
-    --bg-deep: #050508;
-    --surface: #0e0e14;
-    --surface-glass: rgba(14, 14, 20, 0.75);
-    --border: rgba(255, 255, 255, 0.08);
-    --primary: #8a5cf5;
-    --accent: #00f2fe;
-    --text-main: #ffffff;
-    --text-sub: #94a3b8;
-    --text-dim: #64748b;
-    --success: #10b981;
-    --warning: #f59e0b;
+  --bg:#07060c;
+  --card:rgba(17,15,27,.88);
+  --primary:#925cff;
+  --accent:#00e5ff;
+  --text:#fff;
+  --muted:#9290a5;
+  --border:rgba(255,255,255,.09);
+  --green:#23dfa0;
+  --red:#ff5578;
 }
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Plus Jakarta Sans', sans-serif;
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Plus Jakarta Sans',sans-serif;
+  -webkit-tap-highlight-color:transparent;
 }
 
 body {
-    background-color: var(--bg-deep);
-    color: var(--text-main);
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    position: relative;
-    overflow-x: hidden;
+  min-height:100vh;
+  background:var(--bg);
+  color:var(--text);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:22px;
+  overflow-x:hidden;
 }
 
-.ambient-glow {
-    position: absolute;
-    width: 350px;
-    height: 350px;
-    border-radius: 50%;
-    filter: blur(100px);
-    z-index: 0;
-    pointer-events: none;
+body::before {
+  content:"";
+  position:fixed;
+  inset:0;
+  background:
+    radial-gradient(ellipse at 15% 15%,rgba(146,92,255,.17),transparent 42%),
+    radial-gradient(ellipse at 85% 85%,rgba(0,229,255,.09),transparent 40%);
+  pointer-events:none;
 }
 
-.glow-1 {
-    top: -100px;
-    left: -100px;
-    background: rgba(138, 92, 245, 0.15);
+body::after {
+  content:"";
+  position:fixed;
+  inset:0;
+  background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
+  background-size:45px 45px;
+  mask-image:linear-gradient(to bottom,black,transparent);
+  pointer-events:none;
 }
 
-.glow-2 {
-    bottom: -100px;
-    right: -100px;
-    background: rgba(0, 242, 254, 0.1);
-}
-
-.particles {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
+#particles {
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  overflow:hidden;
 }
 
 .particle {
-    position: absolute;
-    background: var(--primary);
-    border-radius: 50%;
-    opacity: 0.3;
-    animation: floatUp linear infinite;
+  position:absolute;
+  bottom:-15px;
+  width:3px;
+  height:3px;
+  border-radius:50%;
+  background:var(--primary);
+  box-shadow:0 0 10px var(--primary);
+  animation:floatUp linear infinite;
 }
 
 @keyframes floatUp {
-    0% {
-        transform: translateY(105vh) scale(0);
-        opacity: 0;
-    }
-    50% {
-        opacity: 0.5;
-    }
-    100% {
-        transform: translateY(-5vh) scale(1);
-        opacity: 0;
-    }
+  to {
+    transform:translateY(-110vh) translateX(40px);
+    opacity:0;
+  }
 }
 
 .container {
-    position: relative;
-    z-index: 1;
-    width: 100%;
-    max-width: 420px;
+  position:relative;
+  z-index:2;
+  width:100%;
+  max-width:440px;
+  animation:entrance .8s cubic-bezier(.2,.8,.2,1);
+}
+
+@keyframes entrance {
+  from {opacity:0;transform:translateY(30px) scale(.96)}
+  to {opacity:1;transform:translateY(0) scale(1)}
 }
 
 .card {
-    background: var(--surface-glass);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid var(--border);
-    border-radius: 24px;
-    padding: 32px 24px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5),
-                0 0 30px rgba(138, 92, 245, 0.05);
-    position: relative;
-    overflow: hidden;
+  position:relative;
+  overflow:hidden;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:25px;
+  padding:26px;
+  backdrop-filter:blur(25px);
+  -webkit-backdrop-filter:blur(25px);
+  box-shadow:0 25px 80px rgba(0,0,0,.55),
+             0 0 45px rgba(146,92,255,.07);
 }
 
 .card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(255, 255, 255, 0.2),
-        transparent
-    );
+  content:"";
+  position:absolute;
+  top:0;
+  left:15%;
+  width:70%;
+  height:1px;
+  background:linear-gradient(90deg,transparent,var(--primary),var(--accent),transparent);
+  box-shadow:0 0 15px var(--primary);
 }
 
-.header-box {
-    text-align: center;
-    margin-bottom: 24px;
+.banner {
+  height:130px;
+  margin:-26px -26px 24px;
+  position:relative;
+  overflow:hidden;
 }
 
-.logo-img {
-    width: 68px;
-    height: 68px;
-    border-radius: 20px;
-    object-fit: cover;
-    border: 2px solid var(--border);
-    background: #15151c;
-    margin: 0 auto 16px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-    padding: 2px;
+.banner img {
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center 42%;
+  opacity:.65;
+  filter:saturate(1.2);
+}
+
+.banner::after {
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(to bottom,transparent,rgba(17,15,27,.98));
+}
+
+.header {
+  text-align:center;
+  margin-top:-61px;
+  position:relative;
+  z-index:2;
+  margin-bottom:24px;
+}
+
+.logo {
+  width:75px;
+  height:75px;
+  object-fit:cover;
+  border-radius:21px;
+  border:2px solid rgba(146,92,255,.65);
+  padding:3px;
+  background:#100d19;
+  box-shadow:0 0 25px rgba(146,92,255,.3);
+  transition:.4s;
+}
+
+.logo:hover {
+  transform:rotate(-5deg) scale(1.07);
+  box-shadow:0 0 35px rgba(146,92,255,.6);
 }
 
 .title {
-    font-size: 22px;
-    font-weight: 800;
-    letter-spacing: -0.5px;
-    color: var(--text-main);
-    margin-bottom: 4px;
+  margin-top:14px;
+  font-size:24px;
+  font-weight:800;
+  letter-spacing:-1px;
 }
 
 .title span {
-    background: linear-gradient(135deg, var(--primary), var(--accent));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+  background:linear-gradient(120deg,#a77aff,#00e5ff);
+  background-clip:text;
+  -webkit-background-clip:text;
+  color:transparent;
 }
 
 .subtitle {
-    font-size: 12px;
-    color: var(--text-dim);
-    font-weight: 500;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
+  font-size:10px;
+  color:var(--muted);
+  letter-spacing:2px;
+  margin-top:6px;
+  text-transform:uppercase;
+}
+
+.status-area {
+  display:flex;
+  justify-content:center;
+  margin-bottom:22px;
 }
 
 .status-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: rgba(16, 185, 129, 0.1);
-    border: 1px solid rgba(16, 185, 129, 0.2);
-    padding: 6px 12px;
-    border-radius: 30px;
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--success);
-    margin-bottom: 20px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:8px 15px;
+  background:rgba(35,223,160,.07);
+  border:1px solid rgba(35,223,160,.2);
+  border-radius:30px;
+  font-size:10px;
+  font-weight:800;
+  color:var(--green);
+  letter-spacing:1px;
 }
 
 .status-dot {
-    width: 6px;
-    height: 6px;
-    background-color: var(--success);
-    border-radius: 50%;
-    box-shadow: 0 0 8px var(--success);
-    animation: pulseDot 2s infinite;
+  width:7px;
+  height:7px;
+  background:var(--green);
+  border-radius:50%;
+  box-shadow:0 0 12px var(--green);
+  animation:pulse 1.7s infinite;
 }
 
-@keyframes pulseDot {
-    0%, 100% {
-        opacity: 1;
-        transform: scale(1);
-    }
-    50% {
-        opacity: 0.4;
-        transform: scale(0.8);
-    }
+@keyframes pulse {
+  50% {opacity:.4;transform:scale(.7)}
 }
 
 .key-container {
-    background: rgba(0, 0, 0, 0.3);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 18px;
-    text-align: center;
-    margin-bottom: 16px;
-    position: relative;
+  padding:20px 15px;
+  border:1px solid rgba(146,92,255,.2);
+  border-radius:17px;
+  background:linear-gradient(135deg,rgba(146,92,255,.09),rgba(0,229,255,.025));
+  text-align:center;
+  margin-bottom:14px;
+  transition:.3s;
+}
+
+.key-container:hover {
+  border-color:rgba(146,92,255,.5);
+  box-shadow:0 0 25px rgba(146,92,255,.08);
 }
 
 .key-label {
-    font-size: 10px;
-    text-transform: uppercase;
-    color: var(--text-dim);
-    letter-spacing: 1px;
-    font-weight: 700;
-    margin-bottom: 6px;
+  font-size:10px;
+  color:var(--muted);
+  letter-spacing:2px;
+  font-weight:800;
+  margin-bottom:10px;
 }
 
 .key-value {
-    font-size: 17px;
-    font-weight: 700;
-    color: var(--text-main);
-    letter-spacing: 1.5px;
-    word-break: break-all;
+  font-size:21px;
+  font-weight:800;
+  letter-spacing:2px;
+  overflow-wrap:anywhere;
+  background:linear-gradient(90deg,#fff,#b9a0ff);
+  background-clip:text;
+  -webkit-background-clip:text;
+  color:transparent;
+  min-height:27px;
 }
 
 .btn-main {
-    width: 100%;
-    background: linear-gradient(135deg, #7c3aed, #6d28d9);
-    color: #fff;
-    border: none;
-    border-radius: 14px;
-    padding: 14px;
-    font-size: 14px;
-    font-weight: 700;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    transition: all 0.2s ease;
-    box-shadow: 0 4px 15px rgba(124, 58, 237, 0.4);
+  width:100%;
+  padding:15px;
+  border:1px solid rgba(255,255,255,.13);
+  border-radius:13px;
+  color:white;
+  background:linear-gradient(120deg,#7541d9,#925cff,#5832bb);
+  background-size:200% 100%;
+  font-size:13px;
+  font-weight:800;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  box-shadow:0 6px 25px rgba(117,65,217,.25);
+  transition:transform .25s,box-shadow .25s,background-position .4s;
 }
 
 .btn-main:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(124, 58, 237, 0.6);
+  transform:translateY(-3px);
+  background-position:100% 0;
+  box-shadow:0 10px 35px rgba(146,92,255,.4);
 }
 
 .btn-main:active {
-    transform: translateY(0);
+  transform:scale(.97);
 }
 
 .msg {
-    text-align: center;
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--success);
-    min-height: 16px;
-    margin-top: 10px;
+  min-height:18px;
+  margin-top:12px;
+  font-size:11px;
+  font-weight:700;
+  text-align:center;
+  color:var(--green);
 }
 
 .stats-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-    margin-top: 16px;
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+  margin-top:17px;
 }
 
 .stat-card {
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 12px;
-    text-align: left;
+  padding:14px;
+  background:rgba(255,255,255,.025);
+  border:1px solid var(--border);
+  border-radius:13px;
+  transition:.25s;
+}
+
+.stat-card:hover {
+  transform:translateY(-3px);
+  background:rgba(146,92,255,.07);
+  border-color:rgba(146,92,255,.25);
 }
 
 .stat-card span {
-    display: block;
-    font-size: 10px;
-    color: var(--text-dim);
-    text-transform: uppercase;
-    font-weight: 600;
-    margin-bottom: 4px;
+  display:block;
+  color:var(--muted);
+  font-size:9px;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  margin-bottom:7px;
 }
 
 .stat-card strong {
-    font-size: 12px;
-    color: var(--text-sub);
-    font-weight: 700;
+  font-size:12px;
+  color:#e7e3f4;
+  overflow-wrap:anywhere;
 }
 
 .stat-card.highlight strong {
-    color: var(--warning);
+  color:#ffbd69;
 }
 
 .social-links {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-    margin-top: 12px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:13px;
 }
 
 .social-btn {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 10px;
-    text-align: center;
-    text-decoration: none;
-    color: var(--text-sub);
-    font-size: 11px;
-    font-weight: 600;
-    transition: all 0.2s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
+  text-decoration:none;
+  color:#bdb8d0;
+  background:rgba(255,255,255,.025);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:12px 8px;
+  text-align:center;
+  font-size:11px;
+  font-weight:700;
+  transition:.25s;
 }
 
 .social-btn:hover {
-    background: rgba(255, 255, 255, 0.06);
-    color: var(--text-main);
-    border-color: rgba(255, 255, 255, 0.15);
+  color:white;
+  border-color:var(--primary);
+  background:rgba(146,92,255,.1);
+  transform:translateY(-3px);
 }
 
 .footer {
-    text-align: center;
-    margin-top: 20px;
-    font-size: 10px;
-    color: var(--text-dim);
-    letter-spacing: 1px;
-    font-weight: 600;
-    text-transform: uppercase;
+  margin-top:23px;
+  text-align:center;
+  color:#5d5870;
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:2px;
 }
 
 .loading {
-    position: fixed;
-    inset: 0;
-    background: var(--bg-deep);
-    z-index: 99;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    transition: opacity 0.3s ease;
+  position:fixed;
+  inset:0;
+  z-index:99;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  background:#07060c;
+  transition:opacity .45s,visibility .45s;
+}
+
+.loading.hidden {
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
 }
 
 .spinner {
-    width: 36px;
-    height: 36px;
-    border: 3px solid rgba(255, 255, 255, 0.05);
-    border-top-color: var(--primary);
-    border-radius: 50%;
-    animation: spin 0.7s linear infinite;
-    margin-bottom: 12px;
+  width:42px;
+  height:42px;
+  border:3px solid rgba(255,255,255,.07);
+  border-top-color:var(--primary);
+  border-right-color:var(--accent);
+  border-radius:50%;
+  animation:spin .8s linear infinite;
+  margin-bottom:17px;
 }
 
 .loading p {
-    font-size: 11px;
-    color: var(--text-dim);
-    letter-spacing: 1.5px;
-    font-weight: 700;
-    text-transform: uppercase;
+  font-size:10px;
+  letter-spacing:2px;
+  font-weight:800;
+  color:var(--muted);
 }
 
-@keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
+@keyframes spin {to{transform:rotate(360deg)}}
+
+/* Cursor neon exclusivo para PC */
+.cursor-ring {
+  position:fixed;
+  top:0;
+  left:0;
+  width:27px;
+  height:27px;
+  border:1px solid rgba(0,229,255,.8);
+  border-radius:50%;
+  pointer-events:none;
+  z-index:9999;
+  transform:translate(-50%,-50%);
+  box-shadow:0 0 12px rgba(0,229,255,.3),inset 0 0 8px rgba(0,229,255,.1);
+  transition:width .18s,height .18s,border-color .18s;
+  display:none;
 }
 
-#particles-js {
-    display: none;
+.cursor-ring.active {
+  width:43px;
+  height:43px;
+  border-color:#a77aff;
+  box-shadow:0 0 20px rgba(146,92,255,.6);
+}
+
+.click-wave {
+  position:fixed;
+  width:8px;
+  height:8px;
+  border:1px solid var(--accent);
+  border-radius:50%;
+  pointer-events:none;
+  z-index:9998;
+  animation:wave .55s ease-out forwards;
+}
+
+@keyframes wave {
+  to {transform:scale(5);opacity:0}
+}
+
+@media (pointer:fine) {
+  .cursor-ring {display:block}
+  body {cursor:default}
+}
+
+@media(max-width:480px) {
+  body {padding:14px}
+  .card {padding:21px}
+  .banner {margin:-21px -21px 24px}
+  .title {font-size:22px}
+}
+
+@media(prefers-reduced-motion:reduce) {
+  *,*::before,*::after {
+    animation-duration:.01ms!important;
+    transition-duration:.01ms!important;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<div class="ambient-glow glow-1"></div>
-<div class="ambient-glow glow-2"></div>
-<div class="particles" id="particles"></div>
+<div id="particles"></div>
+<div class="cursor-ring" id="cursor"></div>
 
-<div class="container">
-    <div class="card">
+<main class="container">
+<div class="card">
 
-        <div class="header-box">
-            <img
-                src="https://github.com/ffvortex20-lgtm.png?size=256"
-                alt="Vortex"
-                class="logo-img"
-            >
+  <div class="banner">
+    <img src="https://i.pinimg.com/1200x/c0/be/18/c0be187ef5d3486ee9eb78825fbc7159.jpg" alt="">
+  </div>
 
-            <h1 class="title">VORTEX <span>KEY</span></h1>
-            <div class="subtitle">Secure Key Terminal</div>
-        </div>
+  <header class="header">
+    <img class="logo"
+      src="https://i.pinimg.com/1200x/c0/be/18/c0be187ef5d3486ee9eb78825fbc7159.jpg"
+      alt="VORTEX">
+    <h1 class="title">VORTEX <span>KEY</span></h1>
+    <p class="subtitle">Secure Key Terminal</p>
+  </header>
 
-        <div style="text-align: center;">
-            <div class="status-badge">
-                <div class="status-dot"></div>
-                <span>SISTEMA ATIVO</span>
-            </div>
-        </div>
-
-        <div class="key-container">
-            <div class="key-label">Sua Chave de Acesso</div>
-            <div class="key-value" id="keyText">GERANDO...</div>
-        </div>
-
-        <button class="btn-main" id="copyBtn" onclick="copyKey()">
-            <svg width="16" height="16" viewBox="0 0 24 24"
-                fill="none" stroke="currentColor" stroke-width="2.5"
-                stroke-linecap="round" stroke-linejoin="round">
-                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-            </svg>
-            Copiar Key
-        </button>
-
-        <div class="msg" id="msg"></div>
-
-        <div class="stats-grid">
-
-            <div class="stat-card">
-                <span>Gerada em</span>
-                <strong id="time">--:--</strong>
-            </div>
-
-            <div class="stat-card highlight">
-                <span>Expira em</span>
-                <strong id="countdown">Calculando...</strong>
-            </div>
-
-            <div class="stat-card">
-                <span>Seu IP</span>
-                <strong id="userIp">Carregando...</strong>
-            </div>
-
-            <div class="stat-card">
-                <span>Status ID</span>
-                <strong style="color: var(--success)">Ativada</strong>
-            </div>
-
-        </div>
-
-        <div class="social-links">
-            <a href="https://whatsapp.com/channel/0029Vb8TG8d6rsQq4XOiIa3N"
-               target="_blank" class="social-btn">
-                💬 WhatsApp
-            </a>
-
-            <a href="https://t.me/vtxmdz"
-               target="_blank" class="social-btn">
-                ✈ Telegram
-            </a>
-        </div>
-
-        <div class="footer">
-            Developed by Vortex
-        </div>
-
+  <div class="status-area">
+    <div class="status-badge">
+      <span class="status-dot"></span>
+      SISTEMA ATIVO
     </div>
+  </div>
+
+  <section class="key-container">
+    <p class="key-label">SUA CHAVE DE ACESSO</p>
+    <div class="key-value" id="keyText">VERIFICANDO...</div>
+  </section>
+
+  <button class="btn-main" id="copyBtn" onclick="copyKey()">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" stroke-width="2.2">
+      <rect x="9" y="9" width="13" height="13" rx="2"/>
+      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+    </svg>
+    COPIAR KEY
+  </button>
+
+  <div class="msg" id="msg"></div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <span>Gerada em</span>
+      <strong id="time">--:--</strong>
+    </div>
+    <div class="stat-card highlight">
+      <span>Expira em</span>
+      <strong id="countdown">Calculando...</strong>
+    </div>
+    <div class="stat-card">
+      <span>Seu IP</span>
+      <strong id="userIp">Verificando...</strong>
+    </div>
+    <div class="stat-card">
+      <span>Status</span>
+      <strong id="keyStatus" style="color:var(--green)">Verificando</strong>
+    </div>
+  </div>
+
+  <div class="social-links">
+    <a class="social-btn" href="https://whatsapp.com/channel/0029Vb8TG8d6rsQq4XOiIa3N" target="_blank" rel="noopener">💬 WhatsApp</a>
+    <a class="social-btn" href="https://t.me/vtxmdz" target="_blank" rel="noopener">✈ Telegram</a>
+  </div>
+
+  <footer class="footer">DEVELOPED BY VORTEX HUB</footer>
 </div>
+</main>
 
 <div class="loading" id="loading">
-    <div class="spinner"></div>
-    <p id="loadingText">CONECTANDO AO SERVIDOR...</p>
+  <div class="spinner"></div>
+  <p id="loadingText">CONECTANDO AO SERVIDOR...</p>
 </div>
 
 <script>
-
-// ==========================================
-// CONFIGURAÇÕES
-// ==========================================
-
+const FIREBASE_URL = "https://vmteam-fcb3e-default-rtdb.firebaseio.com";
 const ONE_DAY_MS = 24 * 60 * 60 * 1000;
 
-const FIREBASE_URL =
-"https://vmteam-fcb3e-default-rtdb.firebaseio.com";
-
-
-// ==========================================
-// MENSAGEM DE CARREGAMENTO
-// ==========================================
-
-function setLoadMsg(msg) {
-    const el = document.getElementById("loadingText");
-
-    if (el) {
-        el.textContent = msg;
-    }
-}
-
-
-// ==========================================
-// PARTÍCULAS
-// ==========================================
-
-const particlesContainer = document.getElementById("particles");
-
-for (let i = 0; i < 20; i++) {
-
-    const p = document.createElement("div");
-
-    p.className = "particle";
-
-    p.style.left = Math.random() * 100 + "%";
-    p.style.animationDuration = (6 + Math.random() * 8) + "s";
-    p.style.animationDelay = -(Math.random() * 10) + "s";
-
-    const size = (2 + Math.random() * 3) + "px";
-
-    p.style.width = size;
-    p.style.height = size;
-
-    particlesContainer.appendChild(p);
-}
-
-
-// ==========================================
-// GERAR UID
-// ==========================================
-
-function generateFirebaseUID() {
-
-    const chars =
-    '-0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz';
-
-    let uid = '';
-
-    for (let i = 0; i < 20; i++) {
-
-        uid += chars.charAt(
-            Math.floor(Math.random() * chars.length)
-        );
-
-    }
-
-    return uid;
-}
-
-
-// ==========================================
-// GERAR KEY VORTEX000
-// ==========================================
-
-function generateKey() {
-
-    const digits = String(
-        Math.floor(Math.random() * 1000)
-    ).padStart(3, "0");
-
-    return `VORTEX${digits}`;
-}
-
-
-// ==========================================
-// CONTADOR DE VALIDADE
-// ==========================================
-
 let activeTimer = null;
+let currentIP = "";
+let audioContext = null;
 
-function startCountdown(expireTime) {
+/* SONS SATISFATÓRIOS */
+function playSound(type="click") {
+  try {
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    if (!AudioCtx) return;
 
-    if (activeTimer) {
-        clearInterval(activeTimer);
-    }
+    audioContext ||= new AudioCtx();
+    if (audioContext.state === "suspended") audioContext.resume();
 
-    activeTimer = setInterval(() => {
+    const oscillator = audioContext.createOscillator();
+    const gain = audioContext.createGain();
 
-        const now = Date.now();
+    oscillator.connect(gain);
+    gain.connect(audioContext.destination);
 
-        const distance = expireTime - now;
+    const settings = {
+      click: [520,720,.055],
+      success: [620,980,.16],
+      copy: [740,1100,.10],
+      error: [300,170,.15]
+    };
 
-        if (distance <= 0) {
+    const [start,end,duration] = settings[type] || settings.click;
+    const now = audioContext.currentTime;
 
-            clearInterval(activeTimer);
+    oscillator.type = "sine";
+    oscillator.frequency.setValueAtTime(start,now);
+    oscillator.frequency.exponentialRampToValueAtTime(end,now+duration);
 
-            localStorage.removeItem("vtx_session_v58");
+    gain.gain.setValueAtTime(.0001,now);
+    gain.gain.exponentialRampToValueAtTime(.09,now+.012);
+    gain.gain.exponentialRampToValueAtTime(.0001,now+duration);
 
-            window.location.reload();
-
-            return;
-        }
-
-        const hours = Math.floor(
-            (distance % (1000 * 60 * 60 * 24)) /
-            (1000 * 60 * 60)
-        );
-
-        const minutes = Math.floor(
-            (distance % (1000 * 60 * 60)) /
-            (1000 * 60)
-        );
-
-        const seconds = Math.floor(
-            (distance % (1000 * 60)) / 1000
-        );
-
-        document.getElementById("countdown").textContent =
-        `${hours}h ${minutes}m ${seconds}s`;
-
-    }, 1000);
+    oscillator.start(now);
+    oscillator.stop(now+duration+.02);
+  } catch(e) {}
 }
 
+document.addEventListener("click",e=>{
+  if(e.target.closest("button,a")) playSound("click");
 
-// ==========================================
-// ESCONDER CARREGAMENTO
-// ==========================================
+  const wave=document.createElement("div");
+  wave.className="click-wave";
+  wave.style.left=e.clientX+"px";
+  wave.style.top=e.clientY+"px";
+  document.body.appendChild(wave);
+  setTimeout(()=>wave.remove(),600);
+});
+
+/* CURSOR */
+const cursor=document.getElementById("cursor");
+
+if(window.matchMedia("(pointer:fine)").matches) {
+  document.addEventListener("mousemove",e=>{
+    cursor.style.left=e.clientX+"px";
+    cursor.style.top=e.clientY+"px";
+  });
+
+  document.addEventListener("mouseover",e=>{
+    if(e.target.closest("button,a")) cursor.classList.add("active");
+    else cursor.classList.remove("active");
+  });
+}
+
+/* PARTÍCULAS */
+const particleBox=document.getElementById("particles");
+
+for(let i=0;i<28;i++) {
+  const p=document.createElement("span");
+  p.className="particle";
+  p.style.left=Math.random()*100+"%";
+  p.style.animationDuration=(7+Math.random()*12)+"s";
+  p.style.animationDelay=(-Math.random()*15)+"s";
+  p.style.opacity=Math.random()*.6;
+  particleBox.appendChild(p);
+}
+
+function setLoadMsg(value) {
+  document.getElementById("loadingText").textContent=value;
+}
 
 function hideLoading() {
-
-    const loader = document.getElementById("loading");
-
-    if (loader) {
-
-        loader.style.opacity = "0";
-
-        setTimeout(() => {
-            loader.style.display = "none";
-        }, 300);
-
-    }
+  document.getElementById("loading").classList.add("hidden");
 }
 
-
-// ==========================================
-// CONTADOR DE VISITAS
-// ==========================================
-
-async function incrementVisitasTotal() {
-
-    try {
-
-        const res = await fetch(
-            `${FIREBASE_URL}/visitas/total.json`
-        );
-
-        let currentTotal = 0;
-
-        if (res.ok) {
-
-            const data = await res.json();
-
-            if (data !== null) {
-                currentTotal = parseInt(data) || 0;
-            }
-
-        }
-
-        await fetch(
-            `${FIREBASE_URL}/visitas/total.json`,
-            {
-                method: "PUT",
-
-                headers: {
-                    "Content-Type": "application/json"
-                },
-
-                body: JSON.stringify(currentTotal + 1)
-            }
-        );
-
-    } catch (e) {
-
-        console.log("Erro ao atualizar total:", e);
-
-    }
+function safeKey(value) {
+  return value.replace(/[.#$[\]/]/g,"_");
 }
 
-
-// ==========================================
-// OBTER IP E VALIDAR
-// ==========================================
-
-async function getIpAndValidate() {
-
-    try {
-
-        const ipRes = await fetch(
-            "https://api.ipify.org?format=json"
-        );
-
-        if (!ipRes.ok) {
-            throw new Error("Não foi possível obter o IP.");
-        }
-
-        const ipData = await ipRes.json();
-
-        const rawIp = ipData.ip;
-
-        const ip = rawIp.replace(/[.#$[\]]/g, "_");
-
-        document.getElementById("userIp").textContent = rawIp;
-
-
-        // CONSULTAR IP NO FIREBASE
-
-        const lockRes = await fetch(
-            `${FIREBASE_URL}/visitas/ips/${ip}.json`
-        );
-
-        if (!lockRes.ok) {
-            throw new Error("Erro ao consultar IP no Firebase.");
-        }
-
-        const lockData = await lockRes.json();
-
-        const now = Date.now();
-
-        if (
-            lockData &&
-            lockData.expireTime &&
-            lockData.expireTime > now
-        ) {
-
-            document.getElementById("keyText").textContent =
-            lockData.key;
-
-            document.getElementById("time").textContent =
-            lockData.generatedAt;
-
-            startCountdown(lockData.expireTime);
-
-            hideLoading();
-
-            localStorage.setItem(
-                "vtx_session_v58",
-                JSON.stringify({
-                    key: lockData.key,
-                    generatedAt: lockData.generatedAt,
-                    ip: rawIp,
-                    expireTime: lockData.expireTime
-                })
-            );
-
-            return null;
-
-        }
-
-        return ip;
-
-    } catch (e) {
-
-        console.error("Erro ao validar IP:", e);
-
-        document.getElementById("userIp").textContent =
-        "DESCONHECIDO";
-
-        return "IP_DESCONHECIDO_" + Math.floor(
-            Math.random() * 1000
-        );
-
-    }
+function generateUID() {
+  const chars="-0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz";
+  let uid="";
+  const bytes=crypto.getRandomValues(new Uint8Array(20));
+  for(let i=0;i<20;i++) uid+=chars[bytes[i]%chars.length];
+  return uid;
 }
 
+function generateKey() {
+  const digits=String(Math.floor(Math.random()*1000)).padStart(3,"0");
+  return "VORTEX"+digits;
+}
 
-// ==========================================
-// GERAR E SALVAR KEY NO FIREBASE
-// ==========================================
+async function firebase(path,options={}) {
+  const response=await fetch(FIREBASE_URL+"/"+path+".json",{
+    ...options,
+    headers:{
+      "Content-Type":"application/json",
+      ...options.headers
+    }
+  });
 
+  if(!response.ok) throw new Error("Erro Firebase: "+response.status);
+  return response.json();
+}
+
+/* CONTADOR */
+function startCountdown(expireTime) {
+  clearInterval(activeTimer);
+
+  function update() {
+    const distance=expireTime-Date.now();
+
+    if(distance<=0) {
+      clearInterval(activeTimer);
+      document.getElementById("countdown").textContent="EXPIRADA";
+      document.getElementById("keyStatus").textContent="EXPIRADA";
+      document.getElementById("keyText").textContent="KEY EXPIRADA";
+      document.getElementById("copyBtn").disabled=true;
+      return;
+    }
+
+    const hours=Math.floor(distance/3600000);
+    const minutes=Math.floor((distance%3600000)/60000);
+    const seconds=Math.floor((distance%60000)/1000);
+
+    document.getElementById("countdown").textContent=
+      `${hours}h ${minutes}m ${seconds}s`;
+  }
+
+  update();
+  activeTimer=setInterval(update,1000);
+}
+
+/* OBTER IP */
+async function getIP() {
+  const response=await fetch("https://api.ipify.org?format=json");
+  if(!response.ok) throw new Error("Falha ao consultar IP");
+
+  const data=await response.json();
+  if(!data.ip) throw new Error("IP inválido");
+
+  return data.ip;
+}
+
+/* VISITAS */
+async function incrementVisits() {
+  try {
+    await firebase("visitas/total.json",{method:"POST",body:"1"});
+  } catch(e) {
+    console.warn("Contador de visitas indisponível",e);
+  }
+}
+
+/* CARREGAR / VALIDAR KEY */
 async function verifyAndLoadKey() {
+  try {
+    setLoadMsg("OBTENDO SEU IP...");
 
-    try {
+    currentIP=await getIP();
+    document.getElementById("userIp").textContent=currentIP;
 
-        const now = Date.now();
+    const ipKey=safeKey(currentIP);
 
+    setLoadMsg("VALIDANDO SUA ETAPA...");
 
-        // VERIFICAR SESSÃO LOCAL
+    const lockData=await firebase("visitas/ips/"+ipKey);
 
-        const sessionData = JSON.parse(
-            localStorage.getItem("vtx_session_v58") || "null"
-        );
-
-        if (
-            sessionData &&
-            sessionData.expireTime > now
-        ) {
-
-            document.getElementById("keyText").textContent =
-            sessionData.key;
-
-            document.getElementById("time").textContent =
-            sessionData.generatedAt || "--";
-
-            document.getElementById("userIp").textContent =
-            sessionData.ip || "Local";
-
-            startCountdown(sessionData.expireTime);
-
-            hideLoading();
-
-            return;
-
-        }
-
-
-        // OBTER IP
-
-        setLoadMsg("OBTENDO SEU IP...");
-
-        const ip = await getIpAndValidate();
-
-        if (!ip) {
-            return;
-        }
-
-
-        // GERAR KEY E UID
-
-        setLoadMsg("GERANDO NOVA KEY...");
-
-        const newKey = generateKey();
-
-        const UID = generateFirebaseUID();
-
-        const generatedAt = new Date().toLocaleTimeString(
-            "pt-BR",
-            {
-                hour: "2-digit",
-                minute: "2-digit"
-            }
-        );
-
-        const expireTime = now + ONE_DAY_MS;
-
-
-        // ESTRUTURA EXATAMENTE COMO NA IMAGEM
-
-        const payloadData = {
-
-            device: "",
-
-            dias: "0",
-
-            dispositivos: "1",
-
-            key: newKey,
-
-            status: "ativada",
-
-            uid: UID,
-
-            validade: "1"
-
-        };
-
-
-        // SALVAR EM usuariosT/UID
-
-        const saveResponse = await fetch(
-            `${FIREBASE_URL}/usuariosT/${UID}.json`,
-            {
-                method: "PUT",
-
-                headers: {
-                    "Content-Type": "application/json"
-                },
-
-                body: JSON.stringify(payloadData)
-            }
-        );
-
-        if (!saveResponse.ok) {
-
-            throw new Error(
-                "Erro ao salvar KEY em usuariosT."
-            );
-
-        }
-
-
-        // SALVAR BLOQUEIO POR IP
-
-        if (!ip.startsWith("IP_DESCONHECIDO")) {
-
-            await fetch(
-                `${FIREBASE_URL}/visitas/ips/${ip}.json`,
-                {
-                    method: "PUT",
-
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-
-                    body: JSON.stringify({
-                        key: newKey,
-                        expireTime: expireTime,
-                        generatedAt: generatedAt
-                    })
-                }
-            ).catch(e => {
-                console.log("Erro ao salvar trava IP:", e);
-            });
-
-
-            // CONTADOR DE VISITAS
-
-            await incrementVisitasTotal();
-
-        }
-
-
-        // SALVAR SESSÃO LOCAL
-
-        const rawIp = ip.startsWith("IP_DESCONHECIDO")
-            ? "Oculto"
-            : ip.replace(/_/g, ".");
-
-        localStorage.setItem(
-            "vtx_session_v58",
-            JSON.stringify({
-                key: newKey,
-                generatedAt: generatedAt,
-                ip: rawIp,
-                expireTime: expireTime
-            })
-        );
-
-
-        // ATUALIZAR INTERFACE
-
-        document.getElementById("keyText").textContent =
-        newKey;
-
-        document.getElementById("time").textContent =
-        generatedAt;
-
-        document.getElementById("msg").textContent =
-        "KEY REGISTRADA COM SUCESSO";
-
-        startCountdown(expireTime);
-
-        hideLoading();
-
-    } catch (e) {
-
-        console.error("ERRO AO GERAR KEY:", e);
-
-        setLoadMsg("ERRO AO CONECTAR");
-
-        document.getElementById("msg").textContent =
-        "NÃO FOI POSSÍVEL GERAR A KEY";
-
-        setTimeout(hideLoading, 1500);
-
+    if(!lockData || lockData.status!=="pendente" &&
+       lockData.status!=="ativada") {
+      throw new Error("Etapa inicial não encontrada. Volte ao index.html e clique em Continue to Step.");
     }
 
-}
+    const now=Date.now();
 
+    /* KEY JÁ EXISTENTE */
+    if(lockData.status==="ativada" &&
+       lockData.key && lockData.expireTime>now) {
 
-// ==========================================
-// MENSAGEM DE SUCESSO
-// ==========================================
+      document.getElementById("keyText").textContent=lockData.key;
+      document.getElementById("time").textContent=lockData.generatedAt||"--";
+      document.getElementById("keyStatus").textContent="ATIVADA";
 
-function triggerSuccess() {
+      startCountdown(lockData.expireTime);
+      document.getElementById("msg").textContent="KEY ENCONTRADA COM SUCESSO";
 
-    document.getElementById("msg").textContent =
-    "KEY COPIADA COM SUCESSO";
-
-    setTimeout(() => {
-
-        document.getElementById("msg").textContent = "";
-
-    }, 3000);
-
-}
-
-
-// ==========================================
-// COPIAR KEY
-// ==========================================
-
-function copyKey() {
-
-    const k = document.getElementById("keyText").textContent;
-
-    if (
-        !k ||
-        k === "GERANDO..." ||
-        k === "ERRO AO CONECTAR"
-    ) {
-        return;
+      hideLoading();
+      return;
     }
 
-    if (
-        navigator.clipboard &&
-        navigator.clipboard.writeText
-    ) {
+    /* REGISTRO PENDENTE: GERAR */
+    setLoadMsg("GERANDO SUA KEY...");
 
-        navigator.clipboard.writeText(k)
-            .then(triggerSuccess)
-            .catch(() => fallbackCopy(k));
+    const newKey=generateKey();
+    const uid=generateUID();
+    const created=Date.now();
+    const expireTime=created+ONE_DAY_MS;
 
-    } else {
+    const generatedAt=new Date(created).toLocaleTimeString("pt-BR",{
+      hour:"2-digit",
+      minute:"2-digit"
+    });
 
-        fallbackCopy(k);
+    /* ESTRUTURA ORIGINAL */
+    const payloadData={
+      device:"",
+      dias:"0",
+      dispositivos:"1",
+      key:newKey,
+      status:"ativada",
+      uid:uid,
+      validade:"1"
+    };
 
-    }
+    /* SALVAR EM usuariosT */
+    await firebase("usuariosT/"+uid,{
+      method:"PUT",
+      body:JSON.stringify(payloadData)
+    });
 
+    /* BLOQUEIO E CONTROLE DE EXPIRAÇÃO */
+    await firebase("visitas/ips/"+ipKey,{
+      method:"PUT",
+      body:JSON.stringify({
+        ip:currentIP,
+        status:"ativada",
+        key:newKey,
+        uid:uid,
+        generatedAt:generatedAt,
+        createdAt:created,
+        expireTime:expireTime
+      })
+    });
+
+    await incrementVisits();
+
+    document.getElementById("keyText").textContent=newKey;
+    document.getElementById("time").textContent=generatedAt;
+    document.getElementById("keyStatus").textContent="ATIVADA";
+    document.getElementById("msg").textContent="KEY GERADA COM SUCESSO";
+
+    startCountdown(expireTime);
+    playSound("success");
+    hideLoading();
+
+  } catch(error) {
+    console.error(error);
+
+    document.getElementById("keyText").textContent="NÃO AUTORIZADO";
+    document.getElementById("keyStatus").textContent="BLOQUEADO";
+    document.getElementById("keyStatus").style.color="var(--red)";
+    document.getElementById("msg").textContent=error.message;
+    document.getElementById("msg").style.color="var(--red)";
+
+    playSound("error");
+    setLoadMsg("NÃO FOI POSSÍVEL VALIDAR");
+
+    setTimeout(hideLoading,1200);
+  }
 }
 
+/* COPIAR */
+async function copyKey() {
+  const key=document.getElementById("keyText").textContent;
 
-// ==========================================
-// CÓPIA ALTERNATIVA
-// ==========================================
+  if(!key || !key.startsWith("VORTEX")) return;
 
-function fallbackCopy(text) {
+  try {
+    await navigator.clipboard.writeText(key);
+    document.getElementById("msg").textContent="✓ KEY COPIADA COM SUCESSO";
+    playSound("copy");
+  } catch(e) {
+    const area=document.createElement("textarea");
+    area.value=key;
+    document.body.appendChild(area);
+    area.select();
 
-    const textArea = document.createElement("textarea");
+    const copied=document.execCommand("copy");
+    area.remove();
 
-    textArea.value = text;
+    document.getElementById("msg").textContent=
+      copied?"✓ KEY COPIADA COM SUCESSO":"ERRO AO COPIAR";
 
-    textArea.style.position = "fixed";
-    textArea.style.opacity = "0";
-
-    document.body.appendChild(textArea);
-
-    textArea.focus();
-    textArea.select();
-
-    try {
-
-        if (document.execCommand("copy")) {
-            triggerSuccess();
-        }
-
-    } catch (err) {}
-
-    document.body.removeChild(textArea);
-
+    if(copied) playSound("copy");
+  }
 }
-
-
-// ==========================================
-// INICIAR SISTEMA
-// ==========================================
 
 verifyAndLoadKey();
-
 </script>
 </body>
 </html>
